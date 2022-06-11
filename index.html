@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Page Title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0">
+		<style>
+			#textoAlumno {
+				color: red;
+				padding: 1em;
+				border: dotted 2px black;
+				width: 30%;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<p>Nombre del alumno: </p><input type="text" name="nombre" id="nombre"> <br>
+		<p>Apellido del alumno: </p><input type="text" name="apellido" id="apellido"> <br>
+		<p>Nota del alumno: </p><input type="text" name="nota" id="nota"> <br>
+		<br/>
+		<button id="boton">Haga click para mostrar texto</button>
+
+		<p id="textoAlumno"></p>
+
+
+		<script>
+			
+			let textoAlumno = document.getElementById("textoAlumno");
+			let boton = document.getElementById("boton");
+			let nombreAlumno = document.getElementById("nombre");
+			let apellidoAlumno = document.getElementById("apellido");
+			let notaAlumno = document.getElementById("nota");
+
+			
+
+			class Alumno {
+				constructor(nombre="Iñaki", apellido="Martin", nota="10") {
+					this.nombre = nombre;
+					this.apellido = apellido;
+					this.nota = nota;
+				}
+				escribir() {
+					textoAlumno.textContent = "Me llamo " + this.nombre + " " + this.apellido + " y mi nota es " + this.nota;
+				}
+			}
+				
+			boton.addEventListener("click", escribirTexto);
+			
+
+			function escribirTexto() {
+				let nuevoAlumno = new Alumno(nombreAlumno.value, apellidoAlumno.value, notaAlumno.value);
+				nuevoAlumno.escribir();
+			}
+			
+		</script>
+	</body>
+</html>
