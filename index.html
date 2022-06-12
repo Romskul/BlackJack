@@ -5,17 +5,115 @@
 		<title>Page Title</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0">
+		<link rel="stylesheet" href="styles/styles.css">
 		<style>
 			
 		</style>
 	</head>
 	<body>
+		<div id="tapete" class="tapete">
+			<div id="baraja">
+				<div id="carta1" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta2" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta3" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta4" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta5" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta6" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta7" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta8" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta9" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta10" class="carta"><img src="deck/anverso.png" alt=""></div>
+			</div>
+			<div id="credito_jugador">
+				<div id="credito_jugador_texto">
+					<p>Credito:</p>
+				</div>
+				<div id="credito_jugador_valor">
+					<p>0</p>
+				</div>
+			</div>
+			<button id="nueva_partida" class="nueva_partida">
+				Nueva Partida
+			</button>
+			<button id="nueva_apuesta">
+				Nueva Apuesta
+			</button>
+			<button id="pedir_carta">
+				Pedir Carta
+			</button>
+			<button id="plantarse">
+				Plantarse
+			</button>
+			<button id="salir">
+				Salir
+			</button>
+
+
+		</div>
+
+		
+	</body>
+	<script>
+		let credito_jugador = 0;
+		let credito_jugador_valor = document.getElementById("credito_jugador_valor");
+		let credito_jugador_texto = document.getElementById("credito_jugador_texto");
+		let carta1 = document.getElementById("carta1");
+		let carta2 = document.getElementById("carta2");
+		let carta3 = document.getElementById("carta3");
+		let carta4 = document.getElementById("carta4");
+		let carta5 = document.getElementById("carta5");
+		let carta6 = document.getElementById("carta6");
+		let carta7 = document.getElementById("carta7");
+		let carta8 = document.getElementById("carta8");
+		let carta9 = document.getElementById("carta9");
+		let carta10 = document.getElementById("carta10");
+		let baraja = document.getElementById("baraja");
+		let nueva_partida = document.getElementById("nueva_partida");
+		let nueva_apuesta = document.getElementById("nueva_apuesta");
+		let pedir_carta = document.getElementById("pedir_carta");
+		let plantarse = document.getElementById("plantarse");
+		let salir = document.getElementById("salir");
+		let tapete = document.getElementById("tapete");
 		
 
-		<script>
+		nueva_partida.addEventListener("click", barajar);
+		
+		
+
+		function barajar() {
+			for (var i = 0; i < 4; i++) {
+				setTimeout(function() {
+					carta9.classList.add("barajar1");
+					carta9.addEventListener("animationend", function(){
+						carta9.classList.remove("barajar1");
+					});
+					carta9.addEventListener("animationend", function(){
+						carta9.classList.add("barajar2");
+					});
+					carta9.classList.remove("barajar2");
+					console.log(carta1);
+				}, i * 1000);	
+			}
+					
+			
+			// if (carta4.classList.contains("barajar2")) {
+			// 	clearInterval(barajar);
+			// }
+			// cartas.forEach(function(carta){
+			// 	const repeticiones = setInterval(function(){
+			// 		carta.style.transform = "rotate(" + Math.floor(Math.random() * 360) + "deg)";
+			// 	}, 100);
+			// 	if (carta==carta4){
+			// 		clearInterval(repeticiones);
+			// 	}
+				
+			// 	});
+			}
+			
+			
+
 			
 			
 			
-		</script>
-	</body>
+	</script>
 </html>

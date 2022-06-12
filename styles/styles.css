@@ -1,0 +1,51 @@
+.tapete{
+    background-color: #027202;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    width: 80vw;
+    height: 97vh;
+    position: relative;
+}
+
+.carta{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+
+.barajar1{
+    animation-name: barajar1;
+    animation-duration: 0.5s;
+}
+
+.barajar2{
+    animation-name: barajar2;
+    animation-duration: 0.5s;
+}
+
+.nueva_partida{
+    position: absolute;
+    right: 25px;
+}
+
+@keyframes barajar1 {
+    from {
+        left: 15px;
+    }
+  
+    to {
+        left: 400px;
+    }
+  }
+
+  @keyframes barajar2 {
+    from {
+        left: 400px;
+    }
+  
+    to {
+        left: 15px;
+    }
+  }
