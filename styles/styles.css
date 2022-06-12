@@ -7,14 +7,100 @@
     height: 97vh;
     position: relative;
 }
-
 .carta{
     position: absolute;
     left: 15px;
     top: 15px;
 }
+.carta img{
+    width: 60%;
+    height: 60%;
+}
+#carta1{
+    top: 27px;
+}
+#carta2{
+    top: 23px;
+}
+#carta3{
+    top: 19px;
+}
 
+.salir{
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
+.nueva_partida{
+    position: absolute;
+    right: 30px;
+    top: 100px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.nueva_apuesta {
+    position: absolute;
+    right: 25px;
+    top: 150px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+.pedir_carta{
+    position: absolute;
+    right: 38px;
+    top: 200px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+.plantarse{
+    position: absolute;
+    right: 48px;
+    top: 250px;
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+    display: none;
+}
+.disabled {
+    cursor: not-allowed;
+}
+
+button.mostrar_boton {
+    display: block;
+}
+
+.carta_reparto1  {
+    top: 675px;
+    left: 200px;
+}
+.carta_reparto2 {
+    top: 675px;
+    left: 400px;
+} 
+
+/*-------------------------------- ANIMACIONES BARAJADO --------------------------------*/
 .barajar1{
     animation-name: barajar1;
     animation-duration: 0.5s;
@@ -25,27 +111,58 @@
     animation-duration: 0.5s;
 }
 
-.nueva_partida{
-    position: absolute;
-    right: 25px;
-}
-
 @keyframes barajar1 {
+    
     from {
         left: 15px;
     }
   
     to {
-        left: 400px;
+        transform: translateX(220px);
     }
   }
 
-  @keyframes barajar2 {
+@keyframes barajar2 {
     from {
-        left: 400px;
+        left: 220px;
     }
   
     to {
+        transform: translateX(0px);
+    }
+  }
+
+/*-------------------------------- FIN ANIMACIONES BARAJADO ----------------------------*/
+
+/*-------------------------------- ANIMACIONES REPARTO --------------------------------*/ 
+.repartir1{
+    animation-name: repartir1;
+    animation-duration: 0.5s;
+}
+
+.repartir2{
+    animation-name: repartir2;
+    animation-duration: 0.5s;
+}
+
+@keyframes repartir1 {
+    from {
         left: 15px;
+    }
+  
+    to {
+       left: 200px;
+       top: 675px;
+    }
+  }
+  
+  @keyframes repartir2 {
+    from {
+        left: 15px;
+    }
+  
+    to {
+        left: 400px;
+        top: 675px;
     }
   }

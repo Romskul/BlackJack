@@ -35,16 +35,16 @@
 			<button id="nueva_partida" class="nueva_partida">
 				Nueva Partida
 			</button>
-			<button id="nueva_apuesta">
+			<button id="nueva_apuesta" class="nueva_apuesta">
 				Nueva Apuesta
 			</button>
-			<button id="pedir_carta">
+			<button id="pedir_carta" class="pedir_carta">
 				Pedir Carta
 			</button>
-			<button id="plantarse">
+			<button id="plantarse" class="plantarse">
 				Plantarse
 			</button>
-			<button id="salir">
+			<button id="salir" class="salir">
 				Salir
 			</button>
 
@@ -74,14 +74,14 @@
 		let plantarse = document.getElementById("plantarse");
 		let salir = document.getElementById("salir");
 		let tapete = document.getElementById("tapete");
-		
+		var inicioPartida;
 
 		nueva_partida.addEventListener("click", barajar);
 		
 		
 
 		function barajar() {
-			for (var i = 0; i < 4; i++) {
+			for (var i = 0; i < 3; i++) {
 				setTimeout(function() {
 					carta9.classList.add("barajar1");
 					carta9.addEventListener("animationend", function(){
@@ -91,24 +91,32 @@
 						carta9.classList.add("barajar2");
 					});
 					carta9.classList.remove("barajar2");
-					console.log(carta1);
-				}, i * 1000);	
-			}
-					
-			
-			// if (carta4.classList.contains("barajar2")) {
-			// 	clearInterval(barajar);
-			// }
-			// cartas.forEach(function(carta){
-			// 	const repeticiones = setInterval(function(){
-			// 		carta.style.transform = "rotate(" + Math.floor(Math.random() * 360) + "deg)";
-			// 	}, 100);
-			// 	if (carta==carta4){
-			// 		clearInterval(repeticiones);
-			// 	}
+				}, i * 1000);
+				nueva_partida.disabled = true;
+				setTimeout(function() {
+					nueva_partida.classList.add("disabled");
+					inicioPartida = 1;
+					mostrarBotones(inicioPartida);
+				}, 3000);
 				
-			// 	});
+			}}
+
+			function mostrarBotones(inicioPartida){
+			if (inicioPartida==1){
+				carta10.classList.add("repartir1");
+				setTimeout(function() {
+					carta10.classList.add("carta_reparto1");
+				}, 500);
+				setTimeout(function() {
+					if (carta10.classList.contains("carta_reparto1")){
+					carta9.classList.add("repartir2");
+				}}, 1000);
+				setTimeout(function() {
+					carta9.classList.add("carta_reparto2");
+				}, 1500);
+				
 			}
+		}
 			
 			
 
