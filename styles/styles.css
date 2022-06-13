@@ -93,11 +93,11 @@ button.mostrar_boton {
 
 .carta_reparto1  {
     top: 675px;
-    left: 200px;
+    left: 215px;
 }
 .carta_reparto2 {
     top: 675px;
-    left: 400px;
+    left: 415px;
 } 
 
 /*-------------------------------- ANIMACIONES BARAJADO --------------------------------*/
@@ -145,24 +145,31 @@ button.mostrar_boton {
     animation-duration: 0.5s;
 }
 
+.voltear_carta1{
+    animation-name: voltearCarta1;
+    animation-duration: 0.5s;
+}
+.voltear_carta1-2{
+    animation-name: voltearCarta1-2;
+    animation-duration: 0.5s;
+}
+
 @keyframes repartir1 {
-    from {
-        left: 15px;
-    }
-  
-    to {
-       left: 200px;
-       top: 675px;
-    }
+    from {left: 15px;}
+    to {transform:translate(200px, 675px);}
   }
   
   @keyframes repartir2 {
-    from {
-        left: 15px;
-    }
-  
-    to {
-        left: 400px;
-        top: 675px;
-    }
+    from {left: 15px;}
+    to {transform:translate(400px, 675px);}
+  }
+
+  @keyframes voltearCarta1 {
+    from { transform: scaleX(1); -o-transform: scaleX(1);}
+    to { transform: scaleX(0); -o-transform: scaleX(0);}
+  }
+
+  @keyframes voltearCarta1-2 {
+    from { transform: scaleX(0) ;-o-transform: scaleX(0);}
+    to { transform: scaleX(1);  -o-transform: scaleX(1);}
   }

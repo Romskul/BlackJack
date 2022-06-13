@@ -21,8 +21,8 @@
 				<div id="carta6" class="carta"><img src="deck/anverso.png" alt=""></div>
 				<div id="carta7" class="carta"><img src="deck/anverso.png" alt=""></div>
 				<div id="carta8" class="carta"><img src="deck/anverso.png" alt=""></div>
-				<div id="carta9" class="carta"><img src="deck/anverso.png" alt=""></div>
-				<div id="carta10" class="carta"><img src="deck/anverso.png" alt=""></div>
+				<div id="carta9" class="carta"><img id="naipe9" src="deck/anverso.png" alt=""></div>
+				<div id="carta10" class="carta"><img id="naipe10" src="deck/anverso.png" alt=""></div>
 			</div>
 			<div id="credito_jugador">
 				<div id="credito_jugador_texto">
@@ -67,6 +67,8 @@
 		let carta8 = document.getElementById("carta8");
 		let carta9 = document.getElementById("carta9");
 		let carta10 = document.getElementById("carta10");
+		let naipe9 = document.getElementById("naipe9");
+		let naipe10 = document.getElementById("naipe10");
 		let baraja = document.getElementById("baraja");
 		let nueva_partida = document.getElementById("nueva_partida");
 		let nueva_apuesta = document.getElementById("nueva_apuesta");
@@ -75,51 +77,135 @@
 		let salir = document.getElementById("salir");
 		let tapete = document.getElementById("tapete");
 		var inicioPartida;
+		var carta;
+		var palo;
+		let cartaJugador1;
+		let cartaJugador2;
+		let cartaJugador3;
+		let cartaJugador4;
+		let cartaJugador5;
+		let cartaBanca1;
+		let cartaBanca2;
+		
+		class cartaJuego{
+					constructor(palo, carta){
+					this.palo = palo;
+					this.valor = carta;
+					this.owned = false;
+				}
+		}
 
 		nueva_partida.addEventListener("click", barajar);
 		
-		
 
 		function barajar() {
-			for (var i = 0; i < 3; i++) {
-				setTimeout(function() {
-					carta9.classList.add("barajar1");
-					carta9.addEventListener("animationend", function(){
-						carta9.classList.remove("barajar1");
+			for (var i = 0; i < 3; i++) {                                  							//Bucle FOR con 3 iteraciones para barajar la baraja
+				setTimeout(function() {																//Cada iteracion se ejecuta una vez mas tarde que la anterior
+					carta9.classList.add("barajar1");												//Añade la clase barajar1 a la carta9
+					carta9.addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
+						carta9.classList.remove("barajar1");										//Elimina la clase barajar1 de la carta9
 					});
-					carta9.addEventListener("animationend", function(){
-						carta9.classList.add("barajar2");
+					carta9.addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
+						carta9.classList.add("barajar2");											//Añade la clase barajar2 a la carta9
 					});
-					carta9.classList.remove("barajar2");
-				}, i * 1000);
-				nueva_partida.disabled = true;
-				setTimeout(function() {
-					nueva_partida.classList.add("disabled");
-					inicioPartida = 1;
-					mostrarBotones(inicioPartida);
-				}, 3000);
-				
-			}}
-
-			function mostrarBotones(inicioPartida){
-			if (inicioPartida==1){
-				carta10.classList.add("repartir1");
-				setTimeout(function() {
-					carta10.classList.add("carta_reparto1");
-				}, 500);
-				setTimeout(function() {
-					if (carta10.classList.contains("carta_reparto1")){
-					carta9.classList.add("repartir2");
-				}}, 1000);
-				setTimeout(function() {
-					carta9.classList.add("carta_reparto2");
-				}, 1500);
-				
+					carta9.classList.remove("barajar2");											//Elimina la clase barajar2 de la carta9
+				}, i * 1000);																		//Cada iteracion se ejecuta una vez mas tarde que la anterior
 			}
+				nueva_partida.disabled = true;														//Desactiva el boton nueva partida
+				setTimeout(function() {										
+					nueva_partida.classList.add("disabled");										//Añade la clase disabled a el boton nueva partida
+					inicioPartida = 1;																//Inicializa la variable inicioPartida a 1
+					mostrarBotones(inicioPartida);													//Llamada a la funcion mostrarBotones
+				}, 3000);
+		}
+
+			function randomizarCarta(){																//Funcion para generar un numero aleatorio entre 1 y 13
+				carta = Math.floor(Math.random() * 12) + 1; 										//Genera un numero aleatorio entre 1 y 13
+				return carta;																		//Devuelve el numero aleatorio
+
+			}
+
+			function randomizarPalo(){																//Funcion para generar un numero aleatorio entre 1 y 4
+				palo = Math.floor(Math.random() * 4) + 1;											//Genera un numero aleatorio entre 1 y 4
+				if (palo == 1){												
+					palo = "cora"																	//Si el numero aleatorio es 1, el palo es corazones
+				}else if (palo == 2){
+					palo = "diaman"																	//Si el numero aleatorio es 2, el palo es diamantes
+				}else if (palo == 3){
+					palo = "trebol"																	//Si el numero aleatorio es 3, el palo es treboles
+				}else if (palo == 4){
+					palo = "picas"																	//Si el numero aleatorio es 4, el palo es picas
+				}
+				return palo;																		//Devuelve el palo
+			}
+
+
+			function randomizarCartas(){															//Funcion para generar una carta aleatoria
+				randomizarPalo();
+				randomizarCarta();		
+			}
+			
+				
+				
+			
+
+			function mostrarBotones(inicioPartida){							
+					
+				if (inicioPartida==1){																//Si la variable inicioPartida es 1
+					carta10.classList.add("repartir1");												//Añade la clase repartir1 a la carta10
+					setTimeout(function() {															//Al finalizar la animacion de la carta10
+						carta10.classList.add("carta_reparto1");									//Añade la clase carta_reparto1 a la carta10
+					}, 500);	
+					setTimeout(function() {															//Al finalizar la animacion de la carta10
+						if (carta10.classList.contains("carta_reparto1")){							//Si la carta10 tiene la clase carta_reparto1
+							carta9.classList.add("repartir2");										//Añade la clase repartir2 a la carta9
+						}}, 1000);
+					setTimeout(function() {															//Al finalizar la animacion de la carta9	
+						carta9.classList.add("carta_reparto2");										//Añade la clase carta_reparto2 a la carta9
+						voltearCarta1();															//Llamada a la funcion voltearCarta1
+					}, 1500);
+					
+				}
+			}
+			
+
+			
+			
+			function voltearCarta1(){																//Funcion para voltear la carta1
+				randomizarCartas();																	//Llamada a la funcion randomizarCartas
+				cartaJugador1 = new cartaJuego(palo, carta);										//Crea una nueva instancia de la clase cartaJuego
+				cartaJugador1.owned = true;															//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+				console.log(cartaJugador1);
+				if (carta9.classList.contains("carta_reparto2")){									//Si la carta9 tiene la clase carta_reparto2
+						carta10.classList.remove("repartir1");										//Elimina la clase repartir1 de la carta10
+						carta10.classList.add("voltear_carta1");									//Añade la clase voltear_carta1 a la carta10
+						carta10.addEventListener("animationend", function(){						//Al finalizar la animacion de la carta10					
+							naipe10.src = "deck/"+cartaJugador1.valor+cartaJugador1.palo+".png";	//Cambia la imagen de la carta10
+							carta10.classList.remove("voltear_carta1");								//Elimina la clase voltear_carta1 de la carta10
+							carta10.classList.add("voltear_carta1-2");								//Añade la clase voltear_carta1-2 a la carta10
+							carta10.addEventListener("animationend", function(){					//Al finalizar la animacion de la carta10
+							voltearCarta2();														//Llamada a la funcion voltearCarta2
+							});
+						});
+				}
+				}
+			function voltearCarta2(){
+				randomizarCartas();
+				cartaJugador2 = new cartaJuego(palo, carta);
+				cartaJugador2.owned = true;
+				console.log(cartaJugador2);
+				if (carta10.classList.contains("votear_carta1-2"))
+					carta9.classList.remove("repartir2");
+					carta9.classList.add("voltear_carta1");	
+					carta9.addEventListener("animationend", function(){
+						cartaValor = cartaJugador2.valor;
+						cartaPalo = cartaJugador2.palo;
+						naipe9.src = "deck/"+cartaValor+cartaPalo+".png";
+						carta9.classList.remove("voltear_carta1");
+						carta9.classList.add("voltear_carta1-2");
+					});
 		}
 			
-			
-
 			
 			
 			
