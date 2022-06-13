@@ -24,12 +24,12 @@
 				<div id="carta9" class="carta"><img id="naipe9" src="deck/anverso.png" alt=""></div>
 				<div id="carta10" class="carta"><img id="naipe10" src="deck/anverso.png" alt=""></div>
 			</div>
-			<div id="credito_jugador">
+			<div id="credito_jugador" class="credito_jugador">
 				<div id="credito_jugador_texto">
-					<p>Credito:</p>
+					<p>Crédito:</p>
 				</div>
 				<div id="credito_jugador_valor">
-					<p>0</p>
+					<p>500</p>
 				</div>
 			</div>
 			<button id="nueva_partida" class="nueva_partida">
@@ -54,7 +54,9 @@
 		
 	</body>
 	<script>
-		let credito_jugador = 0;
+
+		var credito_jugador = 500;
+		let apuesta;
 		let credito_jugador_valor = document.getElementById("credito_jugador_valor");
 		let credito_jugador_texto = document.getElementById("credito_jugador_texto");
 		let carta1 = document.getElementById("carta1");
@@ -81,9 +83,9 @@
 		var palo;
 		let cartaJugador1;
 		let cartaJugador2;
-		let cartaJugador3;
-		let cartaJugador4;
-		let cartaJugador5;
+		// let cartaJugador3;
+		// let cartaJugador4;
+		// let cartaJugador5;
 		let cartaBanca1;
 		let cartaBanca2;
 		
@@ -95,8 +97,15 @@
 				}
 		}
 
-		nueva_partida.addEventListener("click", barajar);
+		nueva_partida.addEventListener("click", nuevaPartida);	
 		
+		function nuevaPartida() {
+			if (credito_jugador > 0) {
+				apuesta = prompt("¿Cuanto quieres apostar?");
+				credito_jugador_valor.innerHTML = credito_jugador - apuesta;
+				barajar();
+				inicioPartida = true;
+		}}
 
 		function barajar() {
 			for (var i = 0; i < 3; i++) {                                  							//Bucle FOR con 3 iteraciones para barajar la baraja
@@ -113,8 +122,7 @@
 			}
 				nueva_partida.disabled = true;														//Desactiva el boton nueva partida
 				setTimeout(function() {										
-					nueva_partida.classList.add("disabled");										//Añade la clase disabled a el boton nueva partida
-					inicioPartida = 1;																//Inicializa la variable inicioPartida a 1
+					nueva_partida.classList.add("disabled");										//Añade la clase disabled a el boton nueva partida																//Inicializa la variable inicioPartida a 1
 					mostrarBotones(inicioPartida);													//Llamada a la funcion mostrarBotones
 				}, 3000);
 		}
@@ -151,7 +159,7 @@
 
 			function mostrarBotones(inicioPartida){							
 					
-				if (inicioPartida==1){																//Si la variable inicioPartida es 1
+				if (inicioPartida==true){																//Si la variable inicioPartida es 1
 					carta10.classList.add("repartir1");												//Añade la clase repartir1 a la carta10
 					setTimeout(function() {															//Al finalizar la animacion de la carta10
 						carta10.classList.add("carta_reparto1");									//Añade la clase carta_reparto1 a la carta10
@@ -198,9 +206,7 @@
 					carta9.classList.remove("repartir2");
 					carta9.classList.add("voltear_carta1");	
 					carta9.addEventListener("animationend", function(){
-						cartaValor = cartaJugador2.valor;
-						cartaPalo = cartaJugador2.palo;
-						naipe9.src = "deck/"+cartaValor+cartaPalo+".png";
+						naipe9.src = "deck/"+cartaJugador2.valor+cartaJugador2.palo+".png";
 						carta9.classList.remove("voltear_carta1");
 						carta9.classList.add("voltear_carta1-2");
 					});

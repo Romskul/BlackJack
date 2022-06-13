@@ -1,12 +1,57 @@
+@font-face {
+    font-family: 'calculatorregular';
+    src: url('../fonts/calculator-webfont.woff2') format('woff2'),
+         url('../fonts/calculator-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 .tapete{
     background-color: #027202;
     border-radius: 10px;
     padding: 10px;
     margin: auto;
-    width: 80vw;
+    width: 90vw;
     height: 97vh;
     position: relative;
 }
+
+.credito_jugador{
+    position: absolute;
+    top: 25px;
+    left: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 150px;
+}
+div.credito_jugador div#credito_jugador_texto{
+    font-size: 20px;
+    color: #fff;
+    font-family: sans-serif;
+    background-color: black;
+    padding: 0;
+    margin: 0;
+}
+
+div.credito_jugador div#credito_jugador_texto p{
+    margin: 0;
+    padding: 0;
+}
+
+div.credito_jugador div#credito_jugador_valor{
+    font-size: 20px;
+    color: #fff;
+    font-family:'calculatorregular';
+    background-color: black;
+}
+
+div.credito_jugador div#credito_jugador_valor p{
+    margin: 0;
+    padding: 0;
+}
+
 .carta{
     position: absolute;
     left: 15px;
