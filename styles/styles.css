@@ -13,7 +13,7 @@
     padding: 10px;
     margin: auto;
     width: 90vw;
-    height: 97vh;
+    height: 1400px;
     position: relative;
 }
 
@@ -132,7 +132,7 @@ div.credito_jugador div#credito_jugador_valor p{
     cursor: not-allowed;
 }
 
-button.mostrar_boton {
+.mostrar_boton {
     display: block;
 }
 
@@ -144,7 +144,14 @@ button.mostrar_boton {
     top: 675px;
     left: 415px;
 } 
-
+.carta_reparto3 {
+    top: 675px;
+    left: 615px;
+}
+.carta_reparto4 {
+    top: 675px;
+    left: 815px;
+}
 /*-------------------------------- ANIMACIONES BARAJADO --------------------------------*/
 .barajar1{
     animation-name: barajar1;
@@ -190,6 +197,15 @@ button.mostrar_boton {
     animation-duration: 0.5s;
 }
 
+.repartir3{
+    animation-name: repartir3;
+    animation-duration: 0.5s;
+}
+.repartir4{
+    animation-name: repartir4;
+    animation-duration: 0.5s;
+}
+
 .voltear_carta1{
     animation-name: voltearCarta1;
     animation-duration: 0.5s;
@@ -207,6 +223,15 @@ button.mostrar_boton {
   @keyframes repartir2 {
     from {left: 15px;}
     to {transform:translate(400px, 675px);}
+  }
+  @keyframes repartir3 {
+    from {left: 15px;}
+    to {transform:translate(600px, 675px);}
+  }
+
+  @keyframes repartir4 {
+    from {left: 15px;}
+    to {transform:translate(800px, 675px);}
   }
 
   @keyframes voltearCarta1 {
