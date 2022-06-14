@@ -345,8 +345,12 @@
 							alert("BLACKJACK");
 							return true;
 						}else if (sumatorioCartasJugadas>21){
-								alert("PERDISTE");
+								if(cartasJugadas.length>2&&cartasJugadas.find(carta => carta.carta=="1")){
+									sumatorioCartasJugadas -= 10;
+								}else{
+									alert("PERDISTE");
 								return true;
+								}
 							}
 						else {
 							pedir_carta.classList.add("mostrar_boton");

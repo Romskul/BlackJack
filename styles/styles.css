@@ -164,24 +164,13 @@ div.credito_jugador div#credito_jugador_valor p{
 }
 
 @keyframes barajar1 {
-    
-    from {
-        left: 15px;
-    }
-  
-    to {
-        transform: translateX(220px);
-    }
+    from {left: 15px;}
+    to {transform: translateX(220px);}
   }
 
 @keyframes barajar2 {
-    from {
-        left: 220px;
-    }
-  
-    to {
-        transform: translateX(0px);
-    }
+    from {left: 220px;}
+    to {transform: translateX(0px);}
   }
 
 /*-------------------------------- FIN ANIMACIONES BARAJADO ----------------------------*/
