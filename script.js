@@ -278,35 +278,90 @@
 				sumatorioCartasJugadas = 0;
 				for (cartaJuego of cartasJugadas){
 					sumatorioCartasJugadas += cartaJuego.valor;
-					console.log(sumatorioCartasJugadas);
 					if (cartasJugadas.length==2&&sumatorioCartasJugadas==21){
 						alert("BLACKJACK");
 						return true;
-					}else if (sumatorioCartasJugadas>21){
-							if(cartasJugadas.length>2&&cartasJugadas.find(carta => carta.carta=="1")){
-								sumatorioCartasJugadas -= 10;
-								if(sumatorioCartasJugadas>21){
-									alert("Perdiste");
-									return true;
-								}else{
-									return false;
-								}
-							}else{
+					}else{
+						pedir_carta.classList.add("mostrar_boton");
+					}
+					if (sumatorioCartasJugadas>21){
+						for (cartaJuego of cartasJugadas){
+							cartasAs = cartasJugadas.filter(carta => carta.carta == "1");
+							if (cartasAs.length==0){
 								alert("PERDISTE");
-								pedir_carta.classList.remove("mostrar_boton");
-								plantarse.classList.remove("mostrar_boton");
 								return true;
 							}
+							if (cartasAs.length==1){
+								cartasJugadas.sort(function(a, b){
+									if (a.carta > b.carta)
+										return 1;
+									if (a.carta < b.carta)
+										return -1;
+									return 0;
+								});
+							}
+							cartasJugadas[0].valor=1;
+							sumatorioCartasJugadas = 0;
+							for (cartaJuego of cartasJugadas){
+								sumatorioCartasJugadas += cartaJuego.valor;
+								console.log(sumatorioCartasJugadas);
+								if (sumatorioCartasJugadas>21){
+									alert("PERDISTE");
+									return true;
+								}else if (cartasAs.length==2&&sumatorioCartasJugadas>21){
+									cartasJugadas.sort(function(a, b){
+										if (a.carta > b.carta) {
+											return 1;
+										  }
+										  if (a.carta < b.carta) {
+											return -1;
+										  }
+										  // a must be equal to b
+										  return 0;
+										});
+									cartasJugadas[0].valor=1;
+									cartasJugadas[1].valor=1;
+									sumatorioCartasJugadas = 0;
+									for (cartaJuego of cartasJugadas){
+										sumatorioCartasJugadas += cartaJuego.valor;
+										console.log(sumatorioCartasJugadas);
+										if (sumatorioCartasJugadas>21){
+											alert("PERDISTE");
+											return true;
+										}
+									}
+								} else if (cartasAs.length==3&&sumatorioCartasJugadas>21){
+									cartasJugadas.sort(function(a, b){
+										if (a.carta > b.carta) {
+											return 1;
+										  }
+										  if (a.carta < b.carta) {
+											return -1;
+										  }
+										  // a must be equal to b
+										  return 0;
+										});
+									cartasJugadas[0].valor=1;
+									cartasJugadas[1].valor=1;
+									cartasJugadas[2].valor=1;
+									sumatorioCartasJugadas = 0;
+									for (cartaJuego of cartasJugadas){
+										sumatorioCartasJugadas += cartaJuego.valor;
+										console.log(sumatorioCartasJugadas);
+										if (sumatorioCartasJugadas>21){
+											alert("PERDISTE");
+											return true;
+										}
+									}}
+							}
 						}
-					else {
-						pedir_carta.classList.add("mostrar_boton");
-						plantarse.classList.add("mostrar_boton");							
+					}else {
+
 					}
-				}
-			}				
-
+				}}	
+		
 
 			
-			
+	
 			
 			
