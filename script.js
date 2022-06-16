@@ -308,7 +308,7 @@
 								if (sumatorioCartasJugadas>21){
 									alert("PERDISTE");
 									return true;
-								}else if (cartasAs.length==2&&sumatorioCartasJugadas>21){
+								}else if (cartasAs.length==2){
 									cartasJugadas.sort(function(a, b){
 										if (a.carta > b.carta) {
 											return 1;
@@ -328,9 +328,11 @@
 										if (sumatorioCartasJugadas>21){
 											alert("PERDISTE");
 											return true;
+										}else {
+											cartasJugadas[1].valor=1;
 										}
 									}
-								} else if (cartasAs.length==3&&sumatorioCartasJugadas>21){
+								} else if (cartasAs.length==3){
 									cartasJugadas.sort(function(a, b){
 										if (a.carta > b.carta) {
 											return 1;
