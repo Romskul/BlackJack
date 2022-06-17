@@ -176,8 +176,7 @@
 		
 		function voltearCarta1(){																//Funcion para voltear la carta1
 			let cartaJugada = baraja.shift();	
-			cartasJugadas.push(cartaJugada);
-			console.log(baraja);											//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			cartasJugadas.push(cartaJugada);											//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
 			if (carta9.classList.contains("carta_reparto2")){									//Si la carta9 tiene la clase carta_reparto2
 				carta10.classList.remove("repartir1");											//Elimina la clase repartir1 de la carta10
 				carta10.classList.add("voltear_carta1");										//Añade la clase voltear_carta1 a la carta10
@@ -195,7 +194,6 @@
 		function voltearCarta2(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			console.log(baraja);
 			if (carta10.classList.contains("votear_carta1-2"))
 				carta9.classList.remove("repartir2");
 				carta9.classList.add("voltear_carta1");		
@@ -214,7 +212,6 @@
 		function voltearCarta3(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			console.log(baraja);
 			if (carta9.classList.contains("votear_carta1-2"))
 				carta9.classList.remove("repartir2");
 				setTimeout(function(){
@@ -234,7 +231,6 @@
 		function voltearCarta4(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			console.log(baraja);
 			if (carta8.classList.contains("votear_carta1-2"))
 				carta8.classList.remove("repartir3");
 				setTimeout(function(){
@@ -278,11 +274,13 @@
 				sumatorioCartasJugadas = 0;
 				for (cartaJuego of cartasJugadas){
 					sumatorioCartasJugadas += cartaJuego.valor;
+					
 					if (cartasJugadas.length==2&&sumatorioCartasJugadas==21){
 						alert("BLACKJACK");
 						return true;
 					}else{
 						pedir_carta.classList.add("mostrar_boton");
+						console.log(sumatorioCartasJugadas);
 					}
 					if (sumatorioCartasJugadas>21){
 						for (cartaJuego of cartasJugadas){
@@ -292,75 +290,77 @@
 								return true;
 							}
 							if (cartasAs.length==1){
-								cartasJugadas.sort(function(a, b){
-									if (a.carta > b.carta)
-										return 1;
-									if (a.carta < b.carta)
-										return -1;
-									return 0;
-								});
-							}
-							cartasJugadas[0].valor=1;
-							sumatorioCartasJugadas = 0;
-							for (cartaJuego of cartasJugadas){
-								sumatorioCartasJugadas += cartaJuego.valor;
+								ordernarArrelgoAses(cartasJugadas);
+								cartasJugadas[0].valor=1;
+								sumarCartasJugador();
 								console.log(sumatorioCartasJugadas);
-								if (sumatorioCartasJugadas>21){
+								alertPerdiste(sumatorioCartasJugadas);
+								return true;
+							}else if (cartasAs.length==2&&cartasAs.length<3){
+								ordernarArrelgoAses(cartasJugadas);
+								cartasJugadas[0].valor=1;
+								sumarCartasJugador();
+								cartasJugadas[1].valor=1;
+								sumarCartasJugador();
+								if (sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1){
 									alert("PERDISTE");
 									return true;
-								}else if (cartasAs.length==2){
-									cartasJugadas.sort(function(a, b){
-										if (a.carta > b.carta) {
-											return 1;
-										  }
-										  if (a.carta < b.carta) {
-											return -1;
-										  }
-										  // a must be equal to b
-										  return 0;
-										});
-									cartasJugadas[0].valor=1;
-									cartasJugadas[1].valor=1;
-									sumatorioCartasJugadas = 0;
-									for (cartaJuego of cartasJugadas){
-										sumatorioCartasJugadas += cartaJuego.valor;
-										console.log(sumatorioCartasJugadas);
-										if (sumatorioCartasJugadas>21){
-											alert("PERDISTE");
-											return true;
-										}else {
-											cartasJugadas[1].valor=1;
-										}
-									}
-								} else if (cartasAs.length==3){
-									cartasJugadas.sort(function(a, b){
-										if (a.carta > b.carta) {
-											return 1;
-										  }
-										  if (a.carta < b.carta) {
-											return -1;
-										  }
-										  // a must be equal to b
-										  return 0;
-										});
-									cartasJugadas[0].valor=1;
-									cartasJugadas[1].valor=1;
+								}else {
+									cartasJugadas[1].valor=11;
+									sumarCartasJugador();
+									alertPerdiste(sumatorioCartasJugadas);
+									return true;
+								}
+							}else if (cartasAs.length==3){
+								console.log("El sumatorio del paso 3 es: "+sumatorioCartasJugadas);
+								ordernarArrelgoAses(cartasJugadas);
+								cartasJugadas[1].valor=1;
+								sumarCartasJugador();
+								if(sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1&&cartasJugadas[2].valor==11){
+									alert("entraFunction");
+									console.log(cartasJugadas);
 									cartasJugadas[2].valor=1;
-									sumatorioCartasJugadas = 0;
-									for (cartaJuego of cartasJugadas){
-										sumatorioCartasJugadas += cartaJuego.valor;
-										console.log(sumatorioCartasJugadas);
-										if (sumatorioCartasJugadas>21){
-											alert("PERDISTE");
-											return true;
-										}
-									}}
+									sumarCartasJugador();
+									alertPerdiste(sumatorioCartasJugadas);
+									return true;
+								}
 							}
 						}
-					}else {
-
 					}
-				}}	
+				}
+			}	
+
+			function ordernarArrelgoAses(cartasJugadas) {
+				cartasJugadas.sort(function(a, b){
+					if (a.carta > b.carta)
+						return 1;
+					if (a.carta < b.carta)
+						return -1;
+					return 0;
+				});
+			}
+
+			function sumarCartasJugador(){
+				sumatorioCartasJugadas = 0;
+				for (cartaJuego of cartasJugadas){
+					sumatorioCartasJugadas += cartaJuego.valor;
+				}
+					return sumatorioCartasJugadas;
+				
+			}
+
+			function alertPerdiste(sumatorioCartasJugadas){
+				if (sumatorioCartasJugadas>21){
+					alert("PERDISTE");
+				}
+			}
+
+			function compararSumatorioCartas(){
+				if (sumatorioCartasJugadas>sumatorioCartasBanca){
+					alert("GANASTE");
+				}
+			}
+				
 		
 
 			
