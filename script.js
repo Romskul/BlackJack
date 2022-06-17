@@ -23,11 +23,13 @@
 		let naipe8 = document.getElementById("naipe8");
 		let naipe9 = document.getElementById("naipe9");
 		let naipe10 = document.getElementById("naipe10");
+		let barajaNaipes = document.querySelectorAll("div.carta");
 		let nueva_partida = document.getElementById("nueva_partida");
 		let nueva_apuesta = document.getElementById("nueva_apuesta");
 		let pedir_carta = document.getElementById("pedir_carta");
 		let plantarse = document.getElementById("plantarse");
 		let salir = document.getElementById("salir");
+		let reiniciarPartida=false;
 		var inicioPartida;
 		var carta;
 		var palo;
@@ -48,8 +50,16 @@
 		pedir_carta.addEventListener("click", pideCarta);
 		plantarse.addEventListener("click", repartirBanca);	
 		
-		function nuevaPartida() {
-			function crearCartas(palo, carta, valor){
+		nueva_apuesta.disabled = true;
+		pedir_carta.disabled = true;
+		plantarse.disabled = true;
+
+
+		function shuffleArray(baraja){
+			baraja.sort(()=> Math.random() - 0.5);
+		}
+
+		function crearCartas(palo, carta, valor){
 			class cartaJuego{
 				constructor(palo, carta){
 				this.palo = palo;
@@ -115,22 +125,26 @@
 					
 					
 		}}}
-		crearCartas();
 
-		// console.log(baraja);
-
-		function shuffleArray(baraja){
-			baraja.sort(()=> Math.random() - 0.5);
-		}
+		function nuevaPartida() {
+		crearCartas();	
 		shuffleArray(baraja);
-			if (credito_jugador > 0) {
-				// apuesta = prompt("¿Cuanto quieres apostar?");
-				credito_jugador_valor.innerHTML = credito_jugador - apuesta;
-				barajar();
-				inicioPartida = true;
-		}}
+		// 
+		if (credito_jugador > 0) {
+			// apuesta = prompt("¿Cuanto quieres apostar?");
+			credito_jugador_valor.innerHTML = credito_jugador - apuesta;
+			barajar();
+		}
+		// if (reiniciarPartida == true&&inicioPartida==false) {
+		// 		for (let i=0; i<barajaNaipes.length; i++) {
+		// 			barajaNaipes[i].classList.remove = "repartir1", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "repartir9", "repartir10", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_reparto9", "carta_reparto10";
+		// 		}
+		// 	barajar();
+		// }
+	}
 
 		function barajar() {
+			inicioPartida = true;
 			for (var i = 0; i < 3; i++) {                                  							//Bucle FOR con 3 iteraciones para barajar la baraja
 				setTimeout(function() {																//Cada iteracion se ejecuta una vez mas tarde que la anterior
 					carta9.classList.add("barajar1");												//Añade la clase barajar1 a la carta9
@@ -141,7 +155,8 @@
 						carta9.classList.add("barajar2");											//Añade la clase barajar2 a la carta9
 					});
 					carta9.classList.remove("barajar2");											//Elimina la clase barajar2 de la carta9
-				}, i * 1000);																		//Cada iteracion se ejecuta una vez mas tarde que la anterior
+				}, i * 1000);
+				carta9.classList.remove("barajar2");																		//Cada iteracion se ejecuta una vez mas tarde que la anterior
 			}
 				nueva_partida.disabled = true;														//Desactiva el boton nueva partida
 				setTimeout(function() {										
@@ -149,13 +164,7 @@
 					mostrarBotones(inicioPartida);													//Llamada a la funcion mostrarBotones
 				}, 3000);
 		}
-										
-
-		function randomizarCartas(){															//Funcion para generar una carta aleatoria
-			randomizarPalo();
-			randomizarCarta();
-			generarID(carta, palo);		
-		}
+									
 
 		function mostrarBotones(inicioPartida){							
 			if (inicioPartida==true){																//Si la variable inicioPartida es 1
@@ -174,7 +183,8 @@
 			}
 		}
 		
-		function voltearCarta1(){																//Funcion para voltear la carta1
+		function voltearCarta1(){	
+			inicioPartida=false;															//Funcion para voltear la carta1
 			let cartaJugada = baraja.shift();	
 			cartasJugadas.push(cartaJugada);											//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
 			if (carta9.classList.contains("carta_reparto2")){									//Si la carta9 tiene la clase carta_reparto2
@@ -277,9 +287,11 @@
 					
 					if (cartasJugadas.length==2&&sumatorioCartasJugadas==21){
 						alert("BLACKJACK");
-						return true;
+						nueva_partida.disabled = false;
+						return  reiniciarPartida=true;
 					}else{
-						pedir_carta.classList.add("mostrar_boton");
+						pedir_carta.disabled = false;
+						plantarse.disabled = false;
 						console.log(sumatorioCartasJugadas);
 					}
 					if (sumatorioCartasJugadas>21){
@@ -287,7 +299,8 @@
 							cartasAs = cartasJugadas.filter(carta => carta.carta == "1");
 							if (cartasAs.length==0){
 								alert("PERDISTE");
-								return true;
+								nueva_partida.disabled = false;
+								return reiniciarPartida=true;
 							}
 							if (cartasAs.length==1){
 								ordernarArrelgoAses(cartasJugadas);
@@ -295,7 +308,8 @@
 								sumarCartasJugador();
 								console.log(sumatorioCartasJugadas);
 								alertPerdiste(sumatorioCartasJugadas);
-								return true;
+								nueva_partida.disabled = false;
+								return reIniciarPartida=true;
 							}else if (cartasAs.length==2&&cartasAs.length<3){
 								ordernarArrelgoAses(cartasJugadas);
 								cartasJugadas[0].valor=1;
@@ -304,12 +318,14 @@
 								sumarCartasJugador();
 								if (sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1){
 									alert("PERDISTE");
-									return true;
+									nueva_partida.disabled = false;
+									return reiniciarPartida=true;
 								}else {
 									cartasJugadas[1].valor=11;
 									sumarCartasJugador();
 									alertPerdiste(sumatorioCartasJugadas);
-									return true;
+									nueva_partida.disabled = false;
+									return reiniciarPartida=true;
 								}
 							}else if (cartasAs.length==3){
 								console.log("El sumatorio del paso 3 es: "+sumatorioCartasJugadas);
@@ -322,7 +338,8 @@
 									cartasJugadas[2].valor=1;
 									sumarCartasJugador();
 									alertPerdiste(sumatorioCartasJugadas);
-									return true;
+									nueva_partida.disabled = false;
+									return reiniciarPartida=true;
 								}
 							}
 						}

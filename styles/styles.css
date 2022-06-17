@@ -102,7 +102,6 @@ div.credito_jugador div#credito_jugador_valor p{
     padding: .55em;
     border-radius: 10px;
     cursor: pointer;
-    display: none;
 }
 
 .pedir_carta{
@@ -114,7 +113,7 @@ div.credito_jugador div#credito_jugador_valor p{
     padding: .55em;
     border-radius: 10px;
     cursor: pointer;
-    display: none;
+    
 }
 
 .plantarse{
@@ -126,7 +125,7 @@ div.credito_jugador div#credito_jugador_valor p{
     padding: .55em;
     border-radius: 10px;
     cursor: pointer;
-    display: none;
+    
 }
 .disabled {
     cursor: not-allowed;
