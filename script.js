@@ -3,27 +3,8 @@
 		let apuesta;
 		let credito_jugador_valor = document.getElementById("credito_jugador_valor");
 		let credito_jugador_texto = document.getElementById("credito_jugador_texto");
-		let carta1 = document.getElementById("carta1");
-		let carta2 = document.getElementById("carta2");
-		let carta3 = document.getElementById("carta3");
-		let carta4 = document.getElementById("carta4");
-		let carta5 = document.getElementById("carta5");
-		let carta6 = document.getElementById("carta6");
-		let carta7 = document.getElementById("carta7");
-		let carta8 = document.getElementById("carta8");
-		let carta9 = document.getElementById("carta9");
-		let carta10 = document.getElementById("carta10");
-		let naipe1 = document.getElementById("naipe1");
-		let naipe2 = document.getElementById("naipe2");
-		let naipe3 = document.getElementById("naipe3");
-		let naipe4 = document.getElementById("naipe4");
-		let naipe5 = document.getElementById("naipe5");
-		let naipe6 = document.getElementById("naipe6");
-		let naipe7 = document.getElementById("naipe7");
-		let naipe8 = document.getElementById("naipe8");
-		let naipe9 = document.getElementById("naipe9");
-		let naipe10 = document.getElementById("naipe10");
 		let barajaNaipes = document.querySelectorAll("div.carta");
+		let barajaImagenes = document.querySelectorAll("img");
 		let nueva_partida = document.getElementById("nueva_partida");
 		let nueva_apuesta = document.getElementById("nueva_apuesta");
 		let pedir_carta = document.getElementById("pedir_carta");
@@ -36,6 +17,7 @@
 		var valor;
 		var id;
 		let cartaJugada;
+		let cartasAs = [];
 		let cartasJugadas = [];
 		let cartasBanca;
 		var baraja = [];
@@ -129,55 +111,65 @@
 		function nuevaPartida() {
 		crearCartas();	
 		shuffleArray(baraja);
-		// 
-		if (credito_jugador > 0) {
+	
+		if (credito_jugador > 0 &&reiniciarPartida==false) {
 			// apuesta = prompt("¿Cuanto quieres apostar?");
 			credito_jugador_valor.innerHTML = credito_jugador - apuesta;
 			barajar();
 		}
-		// if (reiniciarPartida == true&&inicioPartida==false) {
-		// 		for (let i=0; i<barajaNaipes.length; i++) {
-		// 			barajaNaipes[i].classList.remove = "repartir1", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "repartir9", "repartir10", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_reparto9", "carta_reparto10";
-		// 		}
-		// 	barajar();
-		// }
+		if (reiniciarPartida == true&&inicioPartida==false) {
+			// for (let i=0; i<barajaNaipes.length; i++) {
+			// 	barajaNaipes[i].classList.remove("repartir1", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "repartir9", "repartir10", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_reparto9", "carta_reparto10", "carta_repartida");
+			// }
+			// for (let i=0; i<barajaImagenes.length; i++) {
+			// 	barajaImagenes[i].src = "deck/anverso.png";
+			// }
+			
+			// cartasJugadas.length = 0;
+			// cartasAs.length = 0;
+			// sumatorioCartasJugadas=0;
+			// alert("Partida reiniciada");
+			// barajar();
+		}
 	}
 
 		function barajar() {
 			inicioPartida = true;
 			for (var i = 0; i < 3; i++) {                                  							//Bucle FOR con 3 iteraciones para barajar la baraja
 				setTimeout(function() {																//Cada iteracion se ejecuta una vez mas tarde que la anterior
-					carta9.classList.add("barajar1");												//Añade la clase barajar1 a la carta9
-					carta9.addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
-						carta9.classList.remove("barajar1");										//Elimina la clase barajar1 de la carta9
+					barajaNaipes[3].classList.add("barajar1");												//Añade la clase barajar1 a la carta9
+					barajaNaipes[3].addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
+						barajaNaipes[3].classList.remove("barajar1");										//Elimina la clase barajar1 de la carta9
 					});
-					carta9.addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
-						carta9.classList.add("barajar2");											//Añade la clase barajar2 a la carta9
+					barajaNaipes[3].addEventListener("animationend", function(){								//Al finalizar la animacion de la carta9
+						barajaNaipes[3].classList.add("barajar2");											//Añade la clase barajar2 a la carta9
 					});
-					carta9.classList.remove("barajar2");											//Elimina la clase barajar2 de la carta9
+					barajaNaipes[3].classList.remove("barajar2");											//Elimina la clase barajar2 de la carta9
 				}, i * 1000);
-				carta9.classList.remove("barajar2");																		//Cada iteracion se ejecuta una vez mas tarde que la anterior
+				barajaNaipes[3].classList.remove("barajar2");																		//Cada iteracion se ejecuta una vez mas tarde que la anterior
 			}
 				nueva_partida.disabled = true;														//Desactiva el boton nueva partida
 				setTimeout(function() {										
 					nueva_partida.classList.add("disabled");										//Añade la clase disabled a el boton nueva partida																//Inicializa la variable inicioPartida a 1
-					mostrarBotones(inicioPartida);													//Llamada a la funcion mostrarBotones
+					mostrarBotones();													//Llamada a la funcion mostrarBotones
 				}, 3000);
 		}
 									
 
-		function mostrarBotones(inicioPartida){							
+		function mostrarBotones(){							
 			if (inicioPartida==true){																//Si la variable inicioPartida es 1
-				carta10.classList.add("repartir1");												//Añade la clase repartir1 a la carta10
+				barajaNaipes[9].classList.add("repartir1");												//Añade la clase repartir1 a la carta10
 				setTimeout(function() {															//Al finalizar la animacion de la carta10
-					carta10.classList.add("carta_reparto1");									//Añade la clase carta_reparto1 a la carta10
+					barajaNaipes[9].classList.add("carta_reparto1");
+					alert("se coloca la primera carta")									//Añade la clase carta_reparto1 a la carta10
 				}, 500);	
 				setTimeout(function() {															//Al finalizar la animacion de la carta10
-					if (carta10.classList.contains("carta_reparto1")){							//Si la carta10 tiene la clase carta_reparto1
-						carta9.classList.add("repartir2");										//Añade la clase repartir2 a la carta9
+					if (barajaNaipes[9].classList.contains("carta_reparto1")){							//Si la carta10 tiene la clase carta_reparto1									//Añade la clase carta_reparto2 a la carta10
+						barajaNaipes[8].classList.add("repartir2");										//Añade la clase repartir2 a la carta9
+						alert("se coloca la segunda carta")									//Añade la clase carta_reparto2 a la carta9
 					}}, 1000);
 				setTimeout(function() {															//Al finalizar la animacion de la carta9	
-					carta9.classList.add("carta_reparto2");										//Añade la clase carta_reparto2 a la carta9
+					barajaNaipes[8].classList.add("carta_reparto2");										//Añade la clase carta_reparto2 a la carta9
 					voltearCarta1();															//Llamada a la funcion voltearCarta1
 				}, 1500);
 			}
@@ -186,16 +178,17 @@
 		function voltearCarta1(){	
 			inicioPartida=false;															//Funcion para voltear la carta1
 			let cartaJugada = baraja.shift();	
-			cartasJugadas.push(cartaJugada);											//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
-			if (carta9.classList.contains("carta_reparto2")){									//Si la carta9 tiene la clase carta_reparto2
-				carta10.classList.remove("repartir1");											//Elimina la clase repartir1 de la carta10
-				carta10.classList.add("voltear_carta1");										//Añade la clase voltear_carta1 a la carta10
-				carta10.addEventListener("animationend", function(){							//Al finalizar la animacion de la carta10					
-					naipe10.src = "deck/"+cartaJugada.id+".png";								//Cambia la imagen de la carta10
-					carta10.classList.remove("voltear_carta1");									//Elimina la clase voltear_carta1 de la carta10
-					carta10.classList.add("voltear_carta1-2");									//Añade la clase voltear_carta1-2 a la carta10
-					carta10.addEventListener("animationend", function(event){
-						// console.log(event);						//Al finalizar la animacion de la carta10
+			cartasJugadas.push(cartaJugada);
+			console.log(cartasJugadas);											//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			if (barajaNaipes[8].classList.contains("carta_reparto2")){									//Si la carta9 tiene la clase carta_reparto2
+				barajaNaipes[9].classList.remove("repartir1");											//Elimina la clase repartir1 de la carta10
+				barajaNaipes[9].classList.add("voltear_carta1");										//Añade la clase voltear_carta1 a la carta10
+				barajaNaipes[9].addEventListener("animationend", function(){							//Al finalizar la animacion de la carta10					
+					barajaImagenes[9].src = "deck/"+cartaJugada.id+".png";								//Cambia la imagen de la carta10
+					barajaNaipes[9].classList.remove("voltear_carta1");									//Elimina la clase voltear_carta1 de la carta10
+					barajaNaipes[9].classList.add("voltear_carta1-2");									//Añade la clase voltear_carta1-2 a la carta10
+					barajaNaipes[9].addEventListener("animationend", function(){
+					alert("se va a voltear la 2ª carta");
 					voltearCarta2();															//Llamada a la funcion voltearCarta2
 					});
 				});
@@ -204,15 +197,16 @@
 		function voltearCarta2(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			if (carta10.classList.contains("votear_carta1-2"))
-				carta9.classList.remove("repartir2");
-				carta9.classList.add("voltear_carta1");		
-				carta9.addEventListener("animationend", function(){
-					naipe9.src = "deck/"+cartaJugada.id+".png";
-					carta9.classList.remove("voltear_carta1");
-					carta9.classList.add("voltear_carta1-2");
-					carta9.classList.add("carta_repartida");
-					carta9.addEventListener("animationend", function(){
+			console.log(cartasJugadas);
+			if (barajaNaipes[9].classList.contains("votear_carta1-2"))
+				barajaNaipes[8].classList.remove("repartir2");
+				barajaNaipes[8].classList.add("voltear_carta1");		
+				barajaNaipes[8].addEventListener("animationend", function(){
+					barajaImagenes[8].src = "deck/"+cartaJugada.id+".png";
+					barajaNaipes[8].classList.remove("voltear_carta1");
+					barajaNaipes[8].classList.add("voltear_carta1-2");
+					barajaNaipes[8].classList.add("carta_repartida");
+					barajaNaipes[8].addEventListener("animationend", function(){
 						comprobarSumatorioCartas();
 					})
 				});
@@ -222,17 +216,17 @@
 		function voltearCarta3(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			if (carta9.classList.contains("votear_carta1-2"))
-				carta9.classList.remove("repartir2");
+			if (barajaNaipes[8].classList.contains("votear_carta1-2"))
+				barajaNaipes[8].classList.remove("repartir2");
 				setTimeout(function(){
 					carta8.classList.add("voltear_carta1");	
 				}), 1000;
-				carta8.addEventListener("animationend", function(){
-					naipe8.src = "deck/"+cartaJugada.id+".png";
-					carta8.classList.remove("voltear_carta1");
-					carta8.classList.add("voltear_carta1-2");
-					carta8.classList.add("carta_repartida");				//Añade la clase vacia "carta_repartida" para controlar que la carta está en juego
-					carta8.addEventListener("animationend", function(){
+				barajaNaipes[7].addEventListener("animationend", function(){
+					barajaImagenes[7].src = "deck/"+cartaJugada.id+".png";
+					barajaNaipes[7].classList.remove("voltear_carta1");
+					barajaNaipes[7].classList.add("voltear_carta1-2");
+					barajaNaipes[7].classList.add("carta_repartida");				//Añade la clase vacia "carta_repartida" para controlar que la carta está en juego
+					barajaNaipes[7].addEventListener("animationend", function(){
 						comprobarSumatorioCartas();
 					})
 				});
@@ -241,35 +235,35 @@
 		function voltearCarta4(){
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
-			if (carta8.classList.contains("votear_carta1-2"))
-				carta8.classList.remove("repartir3");
+			if (barajaNaipes[7].classList.contains("votear_carta1-2"))
+				barajaNaipes[7].classList.remove("repartir3");
 				setTimeout(function(){
-					carta7.classList.add("voltear_carta1");	
+					barajaNaipes[6].classList.add("voltear_carta1");	
 				}), 1000;
-				carta7.addEventListener("animationend", function(){
-					naipe7.src = "deck/"+cartaJugada.id+".png";
-					carta7.classList.remove("voltear_carta1");
-					carta7.classList.add("voltear_carta1-2");
-					carta7.addEventListener("animationend", function(){	
+				barajaNaipes[6].addEventListener("animationend", function(){
+					barajaImagenes[6].src = "deck/"+cartaJugada.id+".png";
+					barajaNaipes[6].classList.remove("voltear_carta1");
+					barajaNaipes[6].classList.add("voltear_carta1-2");
+					barajaNaipes[6].addEventListener("animationend", function(){	
 						comprobarSumatorioCartas();
 					})
 				});
 			}	
 
 		function pideCarta(){
-			if(carta9.classList.contains("carta_repartida")){
-				carta9.classList.remove("carta_repartida");	
-				carta8.classList.add("repartir3");
+			if(barajaNaipes[8].classList.contains("carta_repartida")){
+				barajaNaipes[8].classList.remove("carta_repartida");	
+				barajaNaipes[7].classList.add("repartir3");
 				setTimeout(function() {
-					carta8.classList.add("carta_reparto3");
+					barajaNaipes[7].classList.add("carta_reparto3");
 					voltearCarta3();
 			}, 500);
 			}
-			if (carta8.classList.contains("carta_repartida")){
-				carta8.classList.remove("carta_repartida");
-				carta7.classList.add("repartir4");
+			if (barajaNaipes[7].classList.contains("carta_repartida")){
+				barajaNaipes[7].classList.remove("carta_repartida");
+				barajaNaipes[6].classList.add("repartir4");
 				setTimeout(function() {
-					carta7.classList.add("carta_reparto4");
+					barajaNaipes[6].classList.add("carta_reparto4");
 					voltearCarta4();
 			}, 500);	
 			}
@@ -309,7 +303,7 @@
 								console.log(sumatorioCartasJugadas);
 								alertPerdiste(sumatorioCartasJugadas);
 								nueva_partida.disabled = false;
-								return reIniciarPartida=true;
+								return reiniciarPartida=true;
 							}else if (cartasAs.length==2&&cartasAs.length<3){
 								ordernarArrelgoAses(cartasJugadas);
 								cartasJugadas[0].valor=1;
@@ -328,12 +322,10 @@
 									return reiniciarPartida=true;
 								}
 							}else if (cartasAs.length==3){
-								console.log("El sumatorio del paso 3 es: "+sumatorioCartasJugadas);
 								ordernarArrelgoAses(cartasJugadas);
 								cartasJugadas[1].valor=1;
 								sumarCartasJugador();
 								if(sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1&&cartasJugadas[2].valor==11){
-									alert("entraFunction");
 									console.log(cartasJugadas);
 									cartasJugadas[2].valor=1;
 									sumarCartasJugador();
