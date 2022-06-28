@@ -94,9 +94,9 @@ div.credito_jugador div#credito_jugador_valor p{
 }
 
 .nueva_apuesta {
-    position: absolute;
+    /* position: absolute;
     right: 25px;
-    top: 150px;
+    top: 150px; */
     font-family: sans-serif;
     font-size: 18px;
     padding: .55em;
@@ -115,7 +115,14 @@ div.credito_jugador div#credito_jugador_valor p{
     cursor: pointer;
     
 }
-
+#reiniciar {
+    font-family: sans-serif;
+    font-size: 18px;
+    padding: .55em;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
 .plantarse{
     position: absolute;
     right: 48px;
@@ -135,22 +142,50 @@ div.credito_jugador div#credito_jugador_valor p{
     display: block;
 }
 
-.carta_reparto1  {
-    top: 675px;
-    left: 215px;
+/*-------------------------------- CARTEL GAME OVER --------------------------------*/
+
+div.game_over{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    opacity: 0;
 }
-.carta_reparto2 {
-    top: 675px;
-    left: 415px;
-} 
-.carta_reparto3 {
-    top: 675px;
-    left: 615px;
+
+.game_over_texto {
+    font-family: sans-serif;
+    font-size: 80px;
+    color: rgb(218, 0, 0);
+    text-align: center;
+    padding: 0;
+    margin: 0;
 }
-.carta_reparto4 {
-    top: 675px;
-    left: 815px;
+
+div.mostrar_gameOver {
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        z-index: -1;
+    }
+    to {
+        opacity: 1;
+        z-index: 100;
+    }
+}
+
+/*-------------------------------- CARTEL GAME OVER --------------------------------*/
+
 /*-------------------------------- ANIMACIONES BARAJADO --------------------------------*/
 .barajar1{
     animation-name: barajar1;
@@ -173,6 +208,27 @@ div.credito_jugador div#credito_jugador_valor p{
   }
 
 /*-------------------------------- FIN ANIMACIONES BARAJADO ----------------------------*/
+
+/*-------------------------------- COLOCACIÓN DE CARTAS (posiciones) --------------------------------*/
+
+.carta_reparto1  {
+    top: 675px;
+    left: 215px;
+}
+.carta_reparto2 {
+    top: 675px;
+    left: 415px;
+} 
+.carta_reparto3 {
+    top: 675px;
+    left: 615px;
+}
+.carta_reparto4 {
+    top: 675px;
+    left: 815px;
+}
+
+/*-------------------------------- FIN COLOCACIÓN DE CARTAS (posiciones) --------------------------------*/
 
 /*-------------------------------- ANIMACIONES REPARTO --------------------------------*/ 
 .repartir1{
