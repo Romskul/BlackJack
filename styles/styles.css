@@ -252,11 +252,11 @@ div.mostrar_gameOver {
 
 .voltear_carta1{
     animation-name: voltearCarta1;
-    animation-duration: 0.5s;
+    animation-duration: 0.500s;
 }
 .voltear_carta1-2{
     animation-name: voltearCarta1-2;
-    animation-duration: 0.5s;
+    animation-duration: 0.500s;
 }
 
 @keyframes repartir1 {
