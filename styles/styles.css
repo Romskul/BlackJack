@@ -67,9 +67,7 @@ div.credito_jugador div#credito_jugador_valor p{
 #carta2{
     top: 23px;
 }
-#carta3{
-    top: 19px;
-}
+
 
 .salir{
     position: absolute;
@@ -227,6 +225,22 @@ div.mostrar_gameOver {
     top: 675px;
     left: 815px;
 }
+.carta_reparto5 {
+    top: 100px;
+    left: 300px;
+}
+.carta_reparto6 {
+    top: 100px;
+    left: 500px;
+}
+.carta_reparto7 {
+    top: 100px;
+    left: 700px;
+}
+div.carta_reparto8 {
+    top: 100px;
+    left: 900px;
+}
 
 /*-------------------------------- FIN COLOCACIÓN DE CARTAS (posiciones) --------------------------------*/
 
@@ -249,7 +263,22 @@ div.mostrar_gameOver {
     animation-name: repartir4;
     animation-duration: 0.5s;
 }
-
+.repartir5{
+    animation-name: repartir5;
+    animation-duration: 0.5s;
+}
+.repartir6{
+    animation-name: repartir6;
+    animation-duration: 0.5s;
+}
+.repartir7{
+    animation-name: repartir7;
+    animation-duration: 0.5s;
+}
+.repartir8{
+    animation-name: repartir8;
+    animation-duration: 0.5s;
+}
 .voltear_carta1{
     animation-name: voltearCarta1;
     animation-duration: 0.500s;
@@ -262,28 +291,47 @@ div.mostrar_gameOver {
 @keyframes repartir1 {
     from {left: 15px;}
     to {transform:translate(200px, 675px);}
-  }
+}
   
-  @keyframes repartir2 {
+@keyframes repartir2 {
     from {left: 15px;}
     to {transform:translate(400px, 675px);}
-  }
-  @keyframes repartir3 {
+}
+@keyframes repartir3 {
     from {left: 15px;}
     to {transform:translate(600px, 675px);}
-  }
+}
 
-  @keyframes repartir4 {
+@keyframes repartir4 {
     from {left: 15px;}
     to {transform:translate(800px, 675px);}
-  }
+}
 
-  @keyframes voltearCarta1 {
+@keyframes repartir5 {
+    from {left: 15px;}
+    to {transform:translate(300px, 100px);}
+}
+
+@keyframes repartir6 {
+    from {left: 15px;}
+    to {transform:translate(500px, 100px);}
+}
+
+@keyframes repartir7 {
+    from {left: 15px;}
+    to {transform:translate(700px, 100px);}
+}
+@keyframes repartir8 {
+    from {left: 15px;}
+    to {transform:translate(900px, 100px);}
+}
+
+@keyframes voltearCarta1 {
     from { transform: scaleX(1); -o-transform: scaleX(1);}
     to { transform: scaleX(0); -o-transform: scaleX(0);}
-  }
+}
 
-  @keyframes voltearCarta1-2 {
+@keyframes voltearCarta1-2 {
     from { transform: scaleX(0) ;-o-transform: scaleX(0);}
     to { transform: scaleX(1);  -o-transform: scaleX(1);}
-  }
+}

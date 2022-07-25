@@ -20,12 +20,18 @@
 		var id;
 		let cartaJugada;
 		let cartasAs = [];
+		let cartasAsBanca = [];
 		let cartasJugadas = [];
-		let cartasBanca;
+		let cartasBanca = [];
 		var baraja = [];
-		var cartaRobada;
 		var sumatorioCartasJugadas = 0;
-		let cartaPosicionada;
+		var sumatorioCartasJugadasBanca = 0;
+		var intRepartoDosCartas
+		var intCartaReparto1
+		var intCartaReparto2
+		var intVoltearCarta1
+		var intVoltearCarta3
+		var intVoltearCarta4
 		
 		
 		
@@ -36,6 +42,7 @@
 		plantarse.addEventListener("click", repartirBanca);	
 		reinicio.addEventListener("click", reiniciar);
 		nueva_apuesta.addEventListener("click", nuevaApuesta);
+		nueva_apuesta.removeEventListener("click", repartirBanca);
 		
 		
 		pedir_carta.disabled = true;
@@ -46,14 +53,31 @@
 		}
 
 		function nuevaApuesta() {
-			
+			reiniciarPartida=false;
+			credito_jugador=500;
+			gameOVer.classList.remove("mostrar_gameOver");
 			for (let i=0; i<barajaNaipes.length; i++) {
-				gameOVer.classList.remove("mostrar_gameOver");
-				barajaNaipes[i].classList.remove = "repartir1", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "repartir9", "repartir10", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_reparto9", "carta_reparto10", "carta_repartida";
+				barajaNaipes[i].classList.remove("repartir1", "barajar1", "barajar2", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_repartida");
 			}
-			// barajar();
-		
+			for (let i=0; i<barajaImagenes.length; i++) {
+				barajaImagenes[i].src = "deck/anverso.png";
+			}
+			baraja.length = 0;
+			cartasAs.length = 0;
+			cartasAsBanca.length = 0;
+			cartasJugadas.length = 0;
+			cartasBanca.length = 0;
+			sumatorioCartasJugadas = 0;
+			sumatorioCartasJugadasBanca = 0;
+			intRepartoDosCartas = 0;
+			intCartaReparto1 = 0;
+			intCartaReparto2 = 0;
+			intVoltearCarta1 = 0;
+			intVoltearCarta3 = 0;
+			intVoltearCarta4 = 0;
+			nuevaPartida();
 		}
+
 		function shuffleArray(baraja){
 			baraja.sort(()=> Math.random() - 0.5);
 		}
@@ -151,33 +175,38 @@
 				}, i * 1000);																	//Cada iteracion se ejecuta una vez mas tarde que la anterior
 				barajaNaipes[3].classList.remove("barajar2");									
 			}
-				nueva_partida.disabled = true;													//Desactiva el boton nueva partida
-				setTimeout(function() {										
-					nueva_partida.classList.add("disabled");									//Añade la clase disabled a el boton nueva partida																
-					mostrarBotones();															//Llamada a la funcion mostrarBotones
-				}, 3000);
+				nueva_partida.disabled = true;	
+				intRepartoDosCartas = setInterval (repartir, 3000);
+				function repartir(){
+					nueva_partida.classList.add("disabled");
+					console.log("int");									//Añade la clase disabled a el boton nueva partida																
+					repartoDosCartas();
+					clearInterval(intRepartoDosCartas);
+				}												//Desactiva el boton nueva partida
+				
 		}
 									
 		
-		function mostrarBotones(){							
+		function repartoDosCartas(){							
 			if (inicioPartida==true){															//Si la variable inicioPartida es true
 				barajaNaipes[9].classList.add("repartir1");	
-				var intCartaReparto1 = setInterval (cartaReparto1, 500);
+				intCartaReparto1 = setInterval (cartaReparto1, 500);
 				function cartaReparto1() {
 					barajaNaipes[9].classList.add("carta_reparto1");
 					barajaNaipes[8].classList.add("repartir2");
 					cartaPosicionada=true;
 					clearInterval(intCartaReparto1);
 				}																							//Añade la clase repartir1 a la carta9																												
-				var intCartaReparto2 = setInterval (cartaReparto2, 1000);						
+				intCartaReparto2 = setInterval (cartaReparto2, 1000);						
 				function cartaReparto2() {
 					barajaNaipes[8].classList.add("carta_reparto2");
 					clearInterval(intCartaReparto2);
 				}		
-				var intVoltearCarta1 = setInterval (voltear, 1000);
+				intVoltearCarta1 = setInterval (voltear, 1000);
 				function voltear(){
+					if (barajaNaipes[8].classList.contains("carta_reparto2")) {
 					voltearCarta1();
-					clearInterval(intVoltearCarta1);
+					clearInterval(intVoltearCarta1);}
 				}
 			}		
 				
@@ -185,7 +214,8 @@
 		}
 		
 		function voltearCarta1(){	
-			inicioPartida=false;																//Funcion para voltear la carta1
+			inicioPartida=false;
+																		//Funcion para voltear la carta1
 			let cartaJugada = baraja.shift();	
 			cartasJugadas.push(cartaJugada);
 			console.log(cartasJugadas);															//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
@@ -203,6 +233,7 @@
 			}
 		}
 		function voltearCarta2(){
+			
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
 			console.log(cartasJugadas);
@@ -222,17 +253,18 @@
 		
 
 		function voltearCarta3(){
+			
 			let cartaJugada = baraja.shift();
 			cartasJugadas.push(cartaJugada);
 			if (barajaNaipes[8].classList.contains("votear_carta1-2"))
 				barajaNaipes[8].classList.remove("repartir2");
-				var voltearCarta1 = setInterval (voltearCarta1, 1000);
-				function voltearCarta1(){
+				intVoltearCarta3 = setInterval (voltearCarta3, 1000);
+				function voltearCarta3(){
 					console.log("1")
 					barajaNaipes[7].classList.add("voltear_carta1");
 				}
 				barajaNaipes[7].addEventListener("animationend", function(){
-					clearInterval(voltearCarta1);
+					clearInterval(intVoltearCarta3);
 					barajaImagenes[7].src = "deck/"+cartaJugada.id+".png";
 					barajaNaipes[7].classList.remove("voltear_carta1");
 					barajaNaipes[7].classList.add("voltear_carta1-2");
@@ -248,10 +280,10 @@
 			cartasJugadas.push(cartaJugada);
 			if (barajaNaipes[7].classList.contains("votear_carta1-2"))
 				barajaNaipes[7].classList.remove("repartir3");
-				var voltearCarta2 = setInterval (voltearCarta2, 1000);
-				function voltearCarta2(){
+				intVoltearCarta4 = setInterval (voltearCarta4, 1000);
+				function voltearCarta4(){
 					barajaNaipes[6].classList.add("voltear_carta1");
-					clearInterval(voltearCarta2);
+					clearInterval(intVoltearCarta4);
 				}
 				
 				barajaNaipes[6].addEventListener("animationend", function(){
@@ -263,6 +295,113 @@
 					})
 				});
 			}	
+
+		function voltearCarta5(){																	//Funcion para voltear la carta1
+			let cartaBancaJugada = baraja.shift();	
+			cartasBanca.push(cartaBancaJugada);														//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			if (barajaNaipes[5].classList.contains("carta_reparto5")){							//Si la carta9 tiene la clase carta_reparto2
+				barajaNaipes[6].classList.remove("repartir4");									//Elimina la clase repartir1 de la carta10
+				barajaNaipes[5].classList.add("voltear_carta1");								//Añade la clase voltear_carta1 a la carta10
+				barajaNaipes[5].addEventListener("animationend", function(){				//Al finalizar la animacion de la carta10					
+					barajaImagenes[5].src = "deck/"+cartaBancaJugada.id+".png";						//Cambia la imagen de la carta10
+					barajaNaipes[5].classList.remove("voltear_carta1");							//Elimina la clase voltear_carta1 de la carta10
+					barajaNaipes[5].classList.add("voltear_carta1-2");
+					barajaNaipes[5].classList.add("carta_repartida")							//Añade la clase voltear_carta1-2 a la carta10
+					barajaNaipes[5].addEventListener("animationend", function(){
+						voltearCarta6();															//Llamada a la funcion voltearCarta2
+					});
+				});
+			}
+		}
+
+		function voltearCarta6(){																	//Funcion para voltear la carta1
+			let cartaBancaJugada = baraja.shift();	
+			cartasBanca.push(cartaBancaJugada);														//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			if (barajaNaipes[4].classList.contains("carta_reparto6")){							//Si la carta9 tiene la clase carta_reparto2
+				barajaNaipes[5].classList.remove("repartir5");									//Elimina la clase repartir1 de la carta10
+				barajaNaipes[4].classList.add("voltear_carta1");								//Añade la clase voltear_carta1 a la carta10
+				barajaNaipes[4].addEventListener("animationend", function(){				//Al finalizar la animacion de la carta10					
+					barajaImagenes[4].src = "deck/"+cartaBancaJugada.id+".png";						//Cambia la imagen de la carta10
+					barajaNaipes[4].classList.remove("voltear_carta1");							//Elimina la clase voltear_carta1 de la carta10
+					barajaNaipes[4].classList.add("voltear_carta1-2");
+					barajaNaipes[4].classList.add("carta_repartida")							//Añade la clase voltear_carta1-2 a la carta10
+					barajaNaipes[4].addEventListener("animationend", function(){
+						comprobarSumatorioBanca();															//Llamada a la funcion voltearCarta2
+					});
+				});
+			}
+		}
+		function voltearCarta7(){																	//Funcion para voltear la carta1
+			let cartaBancaJugada = baraja.shift();	
+			cartasBanca.push(cartaBancaJugada);														//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			if (barajaNaipes[3].classList.contains("carta_reparto7")){							//Si la carta9 tiene la clase carta_reparto2
+				barajaNaipes[4].classList.remove("repartir6");									//Elimina la clase repartir1 de la carta10
+				barajaNaipes[3].classList.add("voltear_carta1");								//Añade la clase voltear_carta1 a la carta10
+				barajaNaipes[3].addEventListener("animationend", function(){				//Al finalizar la animacion de la carta10					
+					barajaImagenes[3].src = "deck/"+cartaBancaJugada.id+".png";						//Cambia la imagen de la carta10
+					barajaNaipes[3].classList.remove("voltear_carta1");							//Elimina la clase voltear_carta1 de la carta10
+					barajaNaipes[3].classList.add("voltear_carta1-2");
+					barajaNaipes[3].classList.add("carta_repartida")							//Añade la clase voltear_carta1-2 a la carta10
+					barajaNaipes[3].addEventListener("animationend", function(){
+						comprobarSumatorioBanca();																					//Llamada a la funcion voltearCarta2
+					});
+				});
+			}
+		}
+		function voltearCarta8(){																	//Funcion para voltear la carta1
+			let cartaBancaJugada = baraja.shift();	
+			cartasBanca.push(cartaBancaJugada);														//Asigna el valor true a la propiedad owned de la instancia cartaJugador1
+			if (barajaNaipes[2].classList.contains("carta_reparto8")){							//Si la carta9 tiene la clase carta_reparto2
+				barajaNaipes[3].classList.remove("repartir7");									//Elimina la clase repartir1 de la carta10
+				barajaNaipes[2].classList.add("voltear_carta1");								//Añade la clase voltear_carta1 a la carta10
+				barajaNaipes[2].addEventListener("animationend", function(){				//Al finalizar la animacion de la carta10					
+					barajaImagenes[2].src = "deck/"+cartaBancaJugada.id+".png";						//Cambia la imagen de la carta10
+					barajaNaipes[2].classList.remove("voltear_carta1");							//Elimina la clase voltear_carta1 de la carta10
+					barajaNaipes[2].classList.add("voltear_carta1-2");
+					barajaNaipes[2].classList.add("carta_repartida")							//Añade la clase voltear_carta1-2 a la carta10
+					barajaNaipes[2].addEventListener("animationend", function(){
+						comprobarSumatorioBanca();																					//Llamada a la funcion voltearCarta2
+					});
+				});
+			}
+		}
+		
+		if (sumatorioCartasJugadasBanca<12){
+			pideCartaBanca1();
+		}
+
+		function pideCartaBanca1(){
+			if(barajaNaipes[4].classList.contains("carta_repartida")){
+				barajaNaipes[5].classList.remove("carta_repartida");	
+				barajaNaipes[3].classList.add("repartir7");
+				var intCartaReparto7 = setInterval (cartaReparto7, 500);						
+				function cartaReparto7() {
+					barajaNaipes[3].classList.add("carta_reparto7");
+					setTimeout(function(){
+						clearInterval(intCartaReparto7);
+						voltearCarta7();
+					}, 50);
+					
+						
+				}
+			}
+		}
+		function pideCartaBanca2(){
+			if(barajaNaipes[3].classList.contains("carta_repartida")){
+				barajaNaipes[4].classList.remove("carta_repartida");	
+				barajaNaipes[2].classList.add("repartir8");
+				var intCartaReparto7 = setInterval (cartaReparto7, 500);						
+				function cartaReparto7() {
+					barajaNaipes[2].classList.add("carta_reparto8");
+					setTimeout(function(){
+						clearInterval(intCartaReparto7);
+						voltearCarta8();
+					}, 50);
+					
+						
+				}
+			}
+		}
 
 		function pideCarta(){
 			if(barajaNaipes[8].classList.contains("carta_repartida")){
@@ -295,8 +434,25 @@
 		}
 			
 		function repartirBanca(){
-
-		}
+			barajaNaipes[5].classList.add("repartir5");	
+				var intCartaReparto1 = setInterval (cartaReparto1, 500);
+				function cartaReparto1() {
+					barajaNaipes[5].classList.add("carta_reparto5");
+					barajaNaipes[4].classList.add("repartir6");
+					clearInterval(intCartaReparto1);
+				}																							//Añade la clase repartir1 a la carta9																												
+				var intCartaReparto2 = setInterval (cartaReparto2, 1000);						
+				function cartaReparto2() {
+					barajaNaipes[4].classList.add("carta_reparto6");
+					clearInterval(intCartaReparto2);
+				}		
+				var intVoltearCarta1 = setInterval (voltear, 1000);
+				function voltear(){
+					voltearCarta5();
+					clearInterval(intVoltearCarta1);
+				}
+			}		
+		
 
 
 		function comprobarSumatorioCartas(){
@@ -329,7 +485,7 @@
 							alertPerdiste(sumatorioCartasJugadas);
 							nueva_partida.disabled = false;
 							return reIniciarPartida=true;
-						}else if (cartasAs.length==2&&cartasAs.length<3){
+						}else if (cartasAs.length==2){
 							ordernarArrelgoAses(cartasJugadas);
 							cartasJugadas[0].valor=1;
 							sumarCartasJugador();
@@ -366,38 +522,144 @@
 			}
 		}	
 
-			function ordernarArrelgoAses(cartasJugadas) {
-				cartasJugadas.sort(function(a, b){
-					if (a.carta > b.carta)
-						return 1;
-					if (a.carta < b.carta)
-						return -1;
-					return 0;
-				});
-			}
-
-			function sumarCartasJugador(){
-				sumatorioCartasJugadas = 0;
-				for (cartaJuego of cartasJugadas){
-					sumatorioCartasJugadas += cartaJuego.valor;
-				}
-					return sumatorioCartasJugadas;
-				
-			}
-
-			function alertPerdiste(sumatorioCartasJugadas){
-				if (sumatorioCartasJugadas>21){
+		function comprobarSumatorioBanca(){
+			sumatorioCartasJugadasBanca = 0;
+			for (cartaJuego of cartasBanca){
+				sumatorioCartasJugadasBanca += cartaJuego.valor;
+				console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca)
+				if (cartasBanca.length==2&&sumatorioCartasJugadasBanca==21){
+					alert("BLACKJACK para la Banca");
+					nueva_partida.disabled = false;
 					gameOVer.classList.add("mostrar_gameOver");
+					return  reiniciarPartida=true;
+				}
+				if (sumatorioCartasJugadasBanca>21){
+					for (cartaJuego of cartasBanca){
+						cartasAsBanca = cartasBanca.filter(carta => carta.carta == "1");
+						if (cartasAsBanca.length==0){
+							comparaJuego(sumatorioCartasJugadasBanca);
+							nueva_partida.disabled = false;
+							return reiniciarPartida=true;
+						}
+						if (cartasAsBanca.length==1){
+							ordernarArrelgoAses(cartasBanca);
+							cartasBanca[0].valor=1;
+							sumarCartasBanca();
+							console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca);
+							nueva_partida.disabled = false;
+							if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length==3){
+								pideCartaBanca2();
+							}
+							return reIniciarPartida=true;
+						}else if (cartasAsBanca.length==2&&cartasAs.length<3){
+							ordernarArrelgoAses(cartasBanca);
+							cartasBanca[0].valor=1;
+							sumarCartasBanca();
+							cartasBanca[1].valor=1;
+							sumarCartasBanca();
+							if (sumatorioCartasJugadasBanca>21&&cartasBanca[1].valor==1){
+								alert("case2");
+								nueva_partida.disabled = false;
+								return reiniciarPartida=true;
+							}else {
+								cartasBanca[1].valor=11;
+								sumarCartasBanca();
+								alert("case3");
+								if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length<3){
+									pideCartaBanca2();
+								}
+								nueva_partida.disabled = false;
+								// if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length==3){
+								// 	pideCartaBanca2();
+								// }
+								return reiniciarPartida=true;
+								
+							}
+						}else if (cartasAsBanca.length==3){
+							console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca);
+							ordernarArrelgoAses(cartasBanca);
+							cartasBanca[1].valor=1;
+							sumarCartasBanca();
+							if(sumatorioCartasJugadasBanca>21&&cartasBanca[1].valor==1&&cartasBanca[2].valor==11){
+								console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca);
+								cartasBanca[2].valor=1;
+								sumarCartasBanca();
+								nueva_partida.disabled = false;
+								return reiniciarPartida=true;
+							}
+						}
+					}
+					
 				}
 			}
+			if (cartasBanca.length==2&&sumatorioCartasJugadasBanca<=16){
+				pideCartaBanca1();
+			}
+			if (cartasBanca.length>=2&&sumatorioCartasJugadasBanca>=17&&cartasAsBanca.length>=0){
+				comparaJuego(sumatorioCartasJugadasBanca);
+			}
+			if (cartasBanca.length==4&&sumatorioCartasJugadasBanca<=17&&cartasAsBanca.length>=0){
+				comparaJuego(sumatorioCartasJugadasBanca);
+			}
+			if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=17&&cartasBanca.length==3){
+				pideCartaBanca2();
+			}
+		}
 
-			function compararSumatorioCartas(){
-				if (sumatorioCartasJugadas>sumatorioCartasBanca){
-					alert("GANASTE");
-				}
-			}
-				
 		
+		function ordernarArrelgoAses(cartasJugadas) {
+			cartasJugadas.sort(function(a, b){							//ordena el array de cartasJugadas por valor
+				if (a.carta > b.carta)									//si la carta es mayor que la siguiente
+					return 1;											//se devuelve 1
+				if (a.carta < b.carta)									//si la carta es menor que la siguiente
+					return -1;											//se devuelve -1
+				return 0;												//si no se cumple nada de lo anterior, se devuelve 0
+			});
+		}
+
+		function ordernarArrelgoAses(cartasBanca) {
+			cartasBanca.sort(function(a, b){							//ordena el array de cartasJugadas por valor
+				if (a.carta > b.carta)									//si la carta es mayor que la siguiente
+					return 1;											//se devuelve 1
+				if (a.carta < b.carta)									//si la carta es menor que la siguiente
+					return -1;											//se devuelve -1
+				return 0;												//si no se cumple nada de lo anterior, se devuelve 0
+			});
+		}
+		function sumarCartasJugador(){
+			sumatorioCartasJugadas = 0;
+			for (cartaJuego of cartasJugadas){
+				sumatorioCartasJugadas += cartaJuego.valor;
+			}
+				return sumatorioCartasJugadas;
+			
+		}
+		function sumarCartasBanca(){
+			sumatorioCartasJugadasBanca = 0;
+			for (cartaJuego of cartasBanca){
+				sumatorioCartasJugadasBanca += cartaJuego.valor;
+			}
+				return sumatorioCartasJugadasBanca;
+			
+		}
+
+		function alertPerdiste(sumatorioCartasJugadas){
+			if (sumatorioCartasJugadas>21){
+				gameOVer.classList.add("mostrar_gameOver");
+			}
+		}
+			
+		function comparaJuego(sumatorioCartasJugadasBanca){
+			if (sumatorioCartasJugadas>sumatorioCartasJugadasBanca||sumatorioCartasJugadasBanca>21){
+				alert("GANASTE");
+			}
+			if (sumatorioCartasJugadas<sumatorioCartasJugadasBanca&&sumatorioCartasJugadasBanca<=21){
+				gameOVer.classList.add("mostrar_gameOver");
+			}
+			if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca&&cartasBanca.length>2){
+				alert("EMPATE");
+			}
+		}
 
 			
 	
