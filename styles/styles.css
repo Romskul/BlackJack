@@ -265,11 +265,11 @@ div.carta_reparto8 {
 }
 .repartir5{
     animation-name: repartir5;
-    animation-duration: 0.5s;
+    animation-duration: 0.475s;
 }
 .repartir6{
     animation-name: repartir6;
-    animation-duration: 0.5s;
+    animation-duration: 0.475s;
 }
 .repartir7{
     animation-name: repartir7;
@@ -313,10 +313,9 @@ div.carta_reparto8 {
 }
 
 @keyframes repartir6 {
-    from {left: 15px;}
+    from {left: 15px; top:15px;}
     to {transform:translate(500px, 100px);}
 }
-
 @keyframes repartir7 {
     from {left: 15px;}
     to {transform:translate(700px, 100px);}

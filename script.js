@@ -54,7 +54,6 @@
 
 		function nuevaApuesta() {
 			reiniciarPartida=false;
-			credito_jugador=500;
 			gameOVer.classList.remove("mostrar_gameOver");
 			for (let i=0; i<barajaNaipes.length; i++) {
 				barajaNaipes[i].classList.remove("repartir1", "barajar1", "barajar2", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_repartida");
@@ -62,6 +61,10 @@
 			for (let i=0; i<barajaImagenes.length; i++) {
 				barajaImagenes[i].src = "deck/anverso.png";
 			}
+			resetValores();
+			
+		}
+		function resetValores(){
 			baraja.length = 0;
 			cartasAs.length = 0;
 			cartasAsBanca.length = 0;
@@ -152,8 +155,9 @@
 			shuffleArray(baraja);
 		
 			if (credito_jugador > 0 &&reiniciarPartida==false) {
-				// apuesta = prompt("¿Cuanto quieres apostar?");
-				credito_jugador_valor.innerHTML = credito_jugador - apuesta;
+				apuesta = parseInt(prompt("¿Cuanto quieres apostar?"));
+				credito_jugador = credito_jugador - apuesta;
+				credito_jugador_valor.innerHTML = credito_jugador;
 				barajar();
 			}
 		}
@@ -194,7 +198,6 @@
 				function cartaReparto1() {
 					barajaNaipes[9].classList.add("carta_reparto1");
 					barajaNaipes[8].classList.add("repartir2");
-					cartaPosicionada=true;
 					clearInterval(intCartaReparto1);
 				}																							//Añade la clase repartir1 a la carta9																												
 				intCartaReparto2 = setInterval (cartaReparto2, 1000);						
@@ -212,6 +215,31 @@
 				
 						
 		}
+
+		function repartirBanca(){
+			plantarse.disabled = true;
+			pedir_carta.disabled = true;
+			barajaNaipes[5].classList.add("repartir5");	
+			var intCartaReparto5 = setInterval (cartaReparto5, 500);
+			function cartaReparto5() {
+				clearInterval(intCartaReparto5);
+				barajaNaipes[5].classList.add("carta_reparto5");
+				barajaNaipes[4].classList.add("repartir6");
+				
+			}																							//Añade la clase repartir1 a la carta9																												
+			var intCartaReparto6 = setInterval (cartaReparto6, 1000);						
+			function cartaReparto6() {
+				barajaNaipes[4].classList.add("carta_reparto6");
+				clearInterval(intCartaReparto6);
+			}		
+			var intVoltearCarta5 = setInterval (voltear, 1100);
+			function voltear(){
+				if (barajaNaipes[4].classList.contains("carta_reparto6")) {
+					voltearCarta5();
+					clearInterval(intVoltearCarta5);
+				}
+			}
+		}		
 		
 		function voltearCarta1(){	
 			inicioPartida=false;													
@@ -259,6 +287,8 @@
 				function llamadaSumatorio(){
 					barajaNaipes[8].removeEventListener("animationend", llamadaSumatorio);
 					comprobarSumatorioCartas();
+					pedir_carta.disabled = false;
+					plantarse.disabled = false;
 				}					
 			}
 			
@@ -280,8 +310,8 @@
 			function volteo3(){
 				barajaImagenes[7].src = "deck/"+cartaJugada.id+".png";
 				barajaNaipes[7].classList.remove("voltear_carta1");
-				barajaNaipes[7].classList.add("voltear_carta1-2");
 				barajaNaipes[7].classList.add("carta_repartida");
+				barajaNaipes[7].classList.add("voltear_carta1-2");
 				barajaNaipes[7].removeEventListener("animationend", volteo3);
 				barajaNaipes[7].addEventListener("animationend", llamadaSumatorio);	
 				function llamadaSumatorio(){
@@ -477,27 +507,7 @@
 			}
 		}
 			
-		function repartirBanca(){
-			barajaNaipes[5].classList.add("repartir5");	
-				var intCartaReparto1 = setInterval (cartaReparto1, 1500);
-				function cartaReparto1() {
-					alert("1")
-					barajaNaipes[5].classList.add("carta_reparto5");
-					barajaNaipes[4].classList.add("repartir6");
-					clearInterval(intCartaReparto1);
-				}																							//Añade la clase repartir1 a la carta9																												
-				var intCartaReparto2 = setInterval (cartaReparto2, 1000);						
-				function cartaReparto2() {
-					alert("2")
-					barajaNaipes[4].classList.add("carta_reparto6");
-					clearInterval(intCartaReparto2);
-				}		
-				var intVoltearCarta1 = setInterval (voltear, 1000);
-				function voltear(){
-					voltearCarta5();
-					clearInterval(intVoltearCarta1);
-				}
-			}		
+		
 		
 
 
@@ -508,6 +518,7 @@
 				
 				if (cartasJugadas.length==2&&sumatorioCartasJugadas==21){
 					alert("BLACKJACK");
+					credito_jugador = apuesta*(3/2);
 					nueva_partida.disabled = false;
 					return  reiniciarPartida=true;
 				}else{
@@ -583,7 +594,7 @@
 					for (cartaJuego of cartasBanca){
 						cartasAsBanca = cartasBanca.filter(carta => carta.carta == "1");
 						if (cartasAsBanca.length==0){
-							comparaJuego();
+							alert("GANASTE");
 							nueva_partida.disabled = false;
 							return reiniciarPartida=true;
 						}
@@ -592,8 +603,7 @@
 							cartasBanca[0].valor=1;
 							sumarCartasBanca();
 							console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca);
-							nueva_partida.disabled = false;
-							if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length==3){
+							if (cartasBanca[0].valor==1&&sumatorioCartasJugadasBanca<=16&&cartasBanca.length==3){
 								pideCartaBanca2();
 							}
 							return reIniciarPartida=true;
@@ -611,9 +621,6 @@
 								cartasBanca[1].valor=11;
 								sumarCartasBanca();
 								alert("case3");
-								if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length<3){
-									pideCartaBanca2();
-								}
 								nueva_partida.disabled = false;
 								// if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length==3){
 								// 	pideCartaBanca2();
@@ -635,21 +642,9 @@
 							}
 						}
 					}
-					
 				}
 			}
-			if (cartasBanca.length==2&&sumatorioCartasJugadasBanca<=16){
-				pideCartaBanca1();
-			}
-			if (cartasBanca.length>=2&&sumatorioCartasJugadasBanca>=17&&cartasAsBanca.length>=0){
-				comparaJuego();
-			}
-			if (cartasBanca.length==4&&sumatorioCartasJugadasBanca<=17&&cartasAsBanca.length>=0){
-				comparaJuego();
-			}
-			if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=17&&cartasBanca.length==3){
-				pideCartaBanca2();
-			}
+			comparaJuego();
 		}
 
 		
@@ -696,14 +691,50 @@
 		}
 			
 		function comparaJuego(){
-			if (sumatorioCartasJugadas>sumatorioCartasJugadasBanca||sumatorioCartasJugadasBanca>21){
-				alert("GANASTE");
-			}
-			if (sumatorioCartasJugadas<sumatorioCartasJugadasBanca&&sumatorioCartasJugadasBanca<=21){
-				gameOVer.classList.add("mostrar_gameOver");
-			}
-			if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca&&cartasBanca.length>2){
-				alert("EMPATE");
+			switch (cartasBanca.length){
+				case 2:
+					if (sumatorioCartasJugadasBanca<=16&&sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
+						pideCartaBanca1();
+					}else if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
+						gameOVer.classList.add("mostrar_gameOver");
+					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
+						alert("GANASTE");
+						credito_jugador = credito_jugador + (apuesta*2);
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
+						alert("EMPATE");
+						credito_jugador = credito_jugador + apuesta;
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}
+					break;
+				case 3:
+					if (sumatorioCartasJugadasBanca<=16&&sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
+						pideCartaBanca2();
+					}else if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
+						gameOVer.classList.add("mostrar_gameOver");
+					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
+						alert("GANASTE");
+						credito_jugador = credito_jugador + (apuesta*2);
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
+						alert("EMPATE");
+						credito_jugador = credito_jugador + apuesta;
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}
+					break;
+				case 4:
+					if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
+						gameOVer.classList.add("mostrar_gameOver");
+					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
+						alert("GANASTE");
+						credito_jugador = credito_jugador + (apuesta*2);
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
+						alert("EMPATE");
+						credito_jugador = credito_jugador + apuesta;
+						credito_jugador_valor.innerHTML = credito_jugador;
+					}
+					break;
 			}
 		}
 
