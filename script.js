@@ -1,13 +1,22 @@
 
-		var credito_jugador = 500;
+		var credito_jugador;
 		let apuesta;
 		let credito_jugador_valor = document.getElementById("credito_jugador_valor");
+		let credito_jugador_value = document.getElementById("credito_jugador_value");
 		let credito_jugador_texto = document.getElementById("credito_jugador_texto");
+		let puntuacion_jugador_value = document.getElementById("puntuacion_jugador_value");
+		let puntuacion_banca_value = document.getElementById("puntuacion_banca_value");
 		let barajaNaipes = document.querySelectorAll("div.carta");
 		let barajaImagenes = document.querySelectorAll("img");
 		let gameOVer = document.getElementById("game_over");
+		let victoria = document.getElementById("victoria");
+		let blackJack = document.getElementById("blackJack");
+		let empate = document.getElementById("empate");
 		let nueva_partida = document.getElementById("nueva_partida");
-		let nueva_apuesta = document.getElementById("nueva_apuesta");
+		let nueva_apuesta_gameover = document.getElementById("nueva_apuesta_gameOver");
+		let nueva_apuesta_victoria = document.getElementById("nueva_apuesta_victoria");
+		let nueva_apuesta_blackJack = document.getElementById("nueva_apuesta_blackJack");
+		let nueva_apuesta_empate = document.getElementById("nueva_apuesta_empate");
 		let pedir_carta = document.getElementById("pedir_carta");
 		let plantarse = document.getElementById("plantarse");
 		let salir = document.getElementById("salir");
@@ -41,12 +50,22 @@
 		pedir_carta.addEventListener("click", pideCarta);
 		plantarse.addEventListener("click", repartirBanca);	
 		reinicio.addEventListener("click", reiniciar);
-		nueva_apuesta.addEventListener("click", nuevaApuesta);
-		nueva_apuesta.removeEventListener("click", repartirBanca);
+		nueva_apuesta_gameover.addEventListener("click", nuevaApuesta);
+		nueva_apuesta_victoria.addEventListener("click", nuevaApuesta);
+		nueva_apuesta_blackJack.addEventListener("click", nuevaApuesta);
+		nueva_apuesta_empate.addEventListener("click", nuevaApuesta);
+		nueva_apuesta_gameover.removeEventListener("click", repartirBanca);
+		nueva_apuesta_victoria.removeEventListener("click", repartirBanca);
+		nueva_apuesta_blackJack.removeEventListener("click", repartirBanca);
+		nueva_apuesta_empate.removeEventListener("click", repartirBanca);
 		
 		
 		pedir_carta.disabled = true;
 		plantarse.disabled = true;
+		
+		credito_jugador_value.innerHTML = 1000;
+		
+		
 
 		function reiniciar (){
 			location.reload();
@@ -54,15 +73,48 @@
 
 		function nuevaApuesta() {
 			reiniciarPartida=false;
-			gameOVer.classList.remove("mostrar_gameOver");
+			limpiarPantalla();
+			puntuacion_banca_value.innerHTML = "";
+			puntuacion_jugador_value.innerHTML = "";
+			apuesta = 0;
 			for (let i=0; i<barajaNaipes.length; i++) {
 				barajaNaipes[i].classList.remove("repartir1", "barajar1", "barajar2", "repartir2", "repartir3", "repartir4", "repartir5", "repartir6", "repartir7", "repartir8", "voltear_carta1", "voltear_carta1-2", "carta_reparto1", "carta_reparto2", "carta_reparto3", "carta_reparto4", "carta_reparto5", "carta_reparto6", "carta_reparto7", "carta_reparto8", "carta_repartida");
 			}
 			for (let i=0; i<barajaImagenes.length; i++) {
 				barajaImagenes[i].src = "deck/anverso.png";
 			}
-			resetValores();
+			if (credito_jugador > 0) {
+				do {
+					apuesta = parseInt(prompt("¿Cuanto quieres apostar?"));
+					if (apuesta == 0){
+						alert("No has apostado nada, por favor introduce una cantidad");
+					}else if (apuesta > credito_jugador) {
+						alert("No tienes suficiente dinero para apostar esa cantidad, por favor introduce una cantidad menor");
+					}else if (apuesta < 100) {
+						alert("No puedes apostar menos de 100, por favor introduce una cantidad mayor");
+					}else if (apuesta == null) {
+						alert("No has introducido ningún valor, por favor introduce una cantidad");
+					}
+				}  while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null);
+				
+				
+					
+				credito_jugador = credito_jugador - apuesta;
+				credito_jugador_value.innerHTML = credito_jugador;
+				console.log("credito jugador = " +credito_jugador);
+				resetValores();
+			}else {
+				alert("No tienes crédito para apostar");
+				gameOVer.classList.add("mostrar_gameOver");
+			}
 			
+			
+		}
+		function limpiarPantalla (){
+			gameOVer.classList.remove("mostrar_gameOver");
+			victoria.classList.remove("mostrar_victoria");
+			empate.classList.remove("mostrar_empate");
+			blackJack.classList.remove("mostrar_blackJack");
 		}
 		function resetValores(){
 			baraja.length = 0;
@@ -78,7 +130,13 @@
 			intVoltearCarta1 = 0;
 			intVoltearCarta3 = 0;
 			intVoltearCarta4 = 0;
-			nuevaPartida();
+			newGame();
+		}
+
+		function newGame(){
+			crearCartas();	
+			shuffleArray(baraja);
+			barajar();
 		}
 
 		function shuffleArray(baraja){
@@ -151,13 +209,25 @@
 		}}}
 
 		function nuevaPartida() {
+			credito_jugador = 1000;
 			crearCartas();	
 			shuffleArray(baraja);
-		
-			if (credito_jugador > 0 &&reiniciarPartida==false) {
-				apuesta = parseInt(prompt("¿Cuanto quieres apostar?"));
+			if (credito_jugador > 0 && reiniciarPartida==false) {
+				do {
+					apuesta = parseInt(prompt("¿Cuanto quieres apostar? (mínimo 100)"));
+					if (apuesta == 0){
+						alert("No has apostado nada, por favor introduce una cantidad");
+					}else if (apuesta > credito_jugador) {
+						alert("No tienes suficiente dinero para apostar esa cantidad, por favor introduce una cantidad menor");
+					}else if (apuesta < 100) {
+						alert("No puedes apostar menos de 100, por favor introduce una cantidad mayor");
+					}else if (apuesta == null) {
+						alert("No has introducido ningún valor, por favor introduce una cantidad");
+					}
+				} while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null);
 				credito_jugador = credito_jugador - apuesta;
-				credito_jugador_valor.innerHTML = credito_jugador;
+				credito_jugador_value.innerHTML = credito_jugador;
+				console.log("credito jugador = " +credito_jugador);
 				barajar();
 			}
 		}
@@ -517,8 +587,9 @@
 				sumatorioCartasJugadas += cartaJuego.valor;
 				
 				if (cartasJugadas.length==2&&sumatorioCartasJugadas==21){
-					alert("BLACKJACK");
-					credito_jugador = apuesta*(3/2);
+					puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
+					calcularCreditoBlackJack(credito_jugador, apuesta);
+					blackJack.classList.add("mostrar_blackJack");
 					nueva_partida.disabled = false;
 					return  reiniciarPartida=true;
 				}else{
@@ -548,6 +619,7 @@
 							sumarCartasJugador();
 							cartasJugadas[1].valor=1;
 							sumarCartasJugador();
+							puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
 							if (sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1){
 								alert("PERDISTE");
 								nueva_partida.disabled = false;
@@ -555,6 +627,7 @@
 							}else {
 								cartasJugadas[1].valor=11;
 								sumarCartasJugador();
+								puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
 								alertPerdiste(sumatorioCartasJugadas);
 								nueva_partida.disabled = false;
 								return reiniciarPartida=true;
@@ -564,11 +637,13 @@
 							ordernarArrelgoAses(cartasJugadas);
 							cartasJugadas[1].valor=1;
 							sumarCartasJugador();
+							puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
 							if(sumatorioCartasJugadas>21&&cartasJugadas[1].valor==1&&cartasJugadas[2].valor==11){
 								alert("entraFunction");
 								console.log(cartasJugadas);
 								cartasJugadas[2].valor=1;
 								sumarCartasJugador();
+								puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
 								alertPerdiste(sumatorioCartasJugadas);
 								nueva_partida.disabled = false;
 								return reiniciarPartida=true;
@@ -577,6 +652,7 @@
 					}
 				}
 			}
+			puntuacion_jugador_value.innerHTML = sumatorioCartasJugadas;
 		}	
 
 		function comprobarSumatorioBanca(){
@@ -595,6 +671,7 @@
 						cartasAsBanca = cartasBanca.filter(carta => carta.carta == "1");
 						if (cartasAsBanca.length==0){
 							alert("GANASTE");
+							comparaJuego();
 							nueva_partida.disabled = false;
 							return reiniciarPartida=true;
 						}
@@ -603,9 +680,7 @@
 							cartasBanca[0].valor=1;
 							sumarCartasBanca();
 							console.log("sumatorio Banca = " +sumatorioCartasJugadasBanca);
-							if (cartasBanca[0].valor==1&&sumatorioCartasJugadasBanca<=16&&cartasBanca.length==3){
-								pideCartaBanca2();
-							}
+							comparaJuego();
 							return reIniciarPartida=true;
 						}else if (cartasAsBanca.length==2&&cartasAs.length<3){
 							ordernarArrelgoAses(cartasBanca);
@@ -622,9 +697,11 @@
 								sumarCartasBanca();
 								alert("case3");
 								nueva_partida.disabled = false;
-								// if (sumatorioCartasJugadasBanca<16||sumatorioCartasJugadasBanca>=16&&sumatorioCartasJugadasBanca<=20&&cartasBanca.length==3){
-								// 	pideCartaBanca2();
-								// }
+								if (sumatorioCartasJugadasBanca<16&&cartasBanca.length==2){
+									pideCartaBanca1();
+								}else if (sumatorioCartasJugadasBanca<16&&cartasBanca.length==3){
+									pideCartaBanca2();
+								}
 								return reiniciarPartida=true;
 								
 							}
@@ -645,6 +722,8 @@
 				}
 			}
 			comparaJuego();
+			puntuacion_banca_value.innerHTML = sumatorioCartasJugadasBanca;
+			
 		}
 
 		
@@ -680,7 +759,6 @@
 			for (cartaJuego of cartasBanca){
 				sumatorioCartasJugadasBanca += cartaJuego.valor;
 			}
-				return sumatorioCartasJugadasBanca;
 			
 		}
 
@@ -698,14 +776,16 @@
 					}else if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
 						gameOVer.classList.add("mostrar_gameOver");
 					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
-						alert("GANASTE");
-						credito_jugador = credito_jugador + (apuesta*2);
-						credito_jugador_valor.innerHTML = credito_jugador;
-					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
-						alert("EMPATE");
-						credito_jugador = credito_jugador + apuesta;
-						credito_jugador_valor.innerHTML = credito_jugador;
+						alert("case 2 victoria");
+						calcularCreditoVictoria();
+						victoria.classList.add("mostrar_victoria");
+					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca&&sumatorioCartasJugadasBanca>=17){
+						calcularCreditoEmpate();
+						empate.classList.add("mostrar_empate");
+					}else if (sumatorioCartasJugadasBanca==sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=16){
+						pedirCartaBanca1();
 					}
+					
 					break;
 				case 3:
 					if (sumatorioCartasJugadasBanca<=16&&sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
@@ -713,32 +793,48 @@
 					}else if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
 						gameOVer.classList.add("mostrar_gameOver");
 					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
-						alert("GANASTE");
-						credito_jugador = credito_jugador + (apuesta*2);
-						credito_jugador_valor.innerHTML = credito_jugador;
-					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
-						alert("EMPATE");
-						credito_jugador = credito_jugador + apuesta;
-						credito_jugador_valor.innerHTML = credito_jugador;
+						alert("case 3 victoria");
+						calcularCreditoVictoria();
+						victoria.classList.add("mostrar_victoria");
+					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca&&sumatorioCartasJugadasBanca>=17){
+						calcularCreditoEmpate();
+						empate.classList.add("mostrar_empate");
+					}else if (sumatorioCartasJugadasBanca==sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=16){
+						pedirCartaBanca2();
 					}
 					break;
 				case 4:
 					if (sumatorioCartasJugadasBanca>sumatorioCartasJugadas&&sumatorioCartasJugadasBanca<=21){
 						gameOVer.classList.add("mostrar_gameOver");
 					}else if (sumatorioCartasJugadasBanca<sumatorioCartasJugadas){
-						alert("GANASTE");
-						credito_jugador = credito_jugador + (apuesta*2);
-						credito_jugador_valor.innerHTML = credito_jugador;
+						alert("case 4 victoria");
+						calcularCreditoVictoria();
+						victoria.classList.add("mostrar_victoria");
 					}else if (sumatorioCartasJugadas==sumatorioCartasJugadasBanca){
-						alert("EMPATE");
-						credito_jugador = credito_jugador + apuesta;
-						credito_jugador_valor.innerHTML = credito_jugador;
+						calcularCreditoEmpate();
+						empate.classList.add("mostrar_empate");
 					}
 					break;
 			}
 		}
 
-			
-	
+		function calcularCreditoVictoria(){
+			alert("calcula Victoria");
+			credito_jugador = credito_jugador + (apuesta*2);
+			credito_jugador_value.innerHTML = credito_jugador;
+			console.log("credito jugador = " +credito_jugador);
+		}
+
+		function calcularCreditoEmpate(){
+			credito_jugador = credito_jugador + apuesta;
+			credito_jugador_value.innerHTML = credito_jugador;
+			console.log("credito jugador = " +credito_jugador);
+		}
+		
+		function calcularCreditoBlackJack(){
+			credito_jugador = credito_jugador + (apuesta*3);
+			credito_jugador_value.innerHTML = credito_jugador;
+			console.log("credito jugador = " +credito_jugador);
+		}
 			
 			
