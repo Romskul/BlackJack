@@ -95,9 +95,6 @@ div.credito_jugador div#credito_jugador_valor p{
 }
 
 .nueva_apuesta {
-    /* position: absolute;
-    right: 25px;
-    top: 150px; */
     font-family: sans-serif;
     font-size: 18px;
     padding: .55em;
@@ -135,6 +132,7 @@ div.credito_jugador div#credito_jugador_valor p{
     cursor: pointer;
     
 }
+
 .disabled {
     cursor: not-allowed;
 }
@@ -142,6 +140,8 @@ div.credito_jugador div#credito_jugador_valor p{
 .mostrar_boton {
     display: block;
 }
+
+/*----------------------------- CUADROS DE SUMATORIOS DE CARTAS -----------------------------------*/
 
 .puntuacion_jugador {
     top: 750px;
@@ -180,7 +180,10 @@ div.credito_jugador div#credito_jugador_valor p{
     font-family:'calculatorregular';
     text-align: center;
 }
-/*-------------------------------- CARTEL GAME OVER --------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------- CARTEL GAME OVER ----------------------------------------*/
 
 div.game_over{
     position: absolute;
@@ -210,6 +213,9 @@ div.mostrar_gameOver {
     animation-fill-mode: forwards;
     
 }
+/*---------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------- CARTEL VICTORIA ---------------------------------------------*/
 
 div.victoria{
     position: absolute;
@@ -240,6 +246,11 @@ div.mostrar_victoria {
     
 }
 
+/*---------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------- CARTEL BLACKJACK ------------------------------------------*/
+
+
 div.blackJack{
     position: absolute;
     width: 100%;
@@ -268,6 +279,10 @@ div.mostrar_blackJack {
     animation-fill-mode: forwards;
     
 }
+
+/*---------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------- CARTEL EMPATE -------------------------------------------*/
 
 div.empate{
     position: absolute;
@@ -298,17 +313,9 @@ div.mostrar_empate {
     
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        z-index: -1;
-    }
-    to {
-        opacity: 1;
-        z-index: 100;
-    }
-}
+/*---------------------------------------------------------------------------------------------------*/
 
+/*------------------------------  ANIMACIONES APARICIÓN DE CARTELES ---------------------------------*/
 
 @keyframes fadeIn {
     from {
@@ -321,9 +328,22 @@ div.mostrar_empate {
     }
 }
 
-/*-------------------------------- CARTEL GAME OVER --------------------------------*/
 
-/*-------------------------------- ANIMACIONES BARAJADO --------------------------------*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        z-index: -1;
+    }
+    to {
+        opacity: 1;
+        z-index: 100;
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------ ANIMACIONES BARAJADO -----------------------------------------*/
+
 .barajar1{
     animation-name: barajar1;
     animation-duration: 0.5s;
@@ -344,7 +364,7 @@ div.mostrar_empate {
     to {transform: translateX(0px);}
   }
 
-/*-------------------------------- FIN ANIMACIONES BARAJADO ----------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------- COLOCACIÓN DE CARTAS (posiciones) --------------------------------*/
 
@@ -383,7 +403,7 @@ div.carta_reparto8 {
 
 /*-------------------------------- FIN COLOCACIÓN DE CARTAS (posiciones) --------------------------------*/
 
-/*-------------------------------- ANIMACIONES REPARTO --------------------------------*/ 
+/*--------------------------------------- ANIMACIONES REPARTO -------------------------------------------*/ 
 .repartir1{
     animation-name: repartir1;
     animation-duration: 0.5s;
@@ -473,3 +493,5 @@ div.carta_reparto8 {
     from { transform: scaleX(0) ;-o-transform: scaleX(0);}
     to { transform: scaleX(1);  -o-transform: scaleX(1);}
 }
+
+/*-----------------------------------------------------------------------------------------------------*/ 
