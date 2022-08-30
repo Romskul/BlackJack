@@ -84,7 +84,8 @@
 	// - Se le solicita una apuesta al jugador y se guarda en la variable apuesta.
 	// - Una vez introducida la cantidad de apuesta, se baraja.
 
-	function nuevaPartida() {																										//   --- Nueva partida ---	
+	function nuevaPartida() {																									//   --- Nueva partida ---	
+		var patron = /[a-z][A-Z]/;  																							// --- Patron para validar que el valor introducido es un número ---
 		credito_jugador = 1000;																									//   --- Credito inicial ---
 		crearCartas();																											//   --- Crear cartas ---
 		shuffleArray(baraja);																									//   --- Barajar cartas ---
@@ -100,8 +101,10 @@
 					alert("No puedes apostar menos de 100, por favor introduce una cantidad mayor");
 				}else if (apuesta == null) {
 					alert("No has introducido ningún valor, por favor introduce una cantidad");
+				}else if(patron.test(apuesta) == true){
+					alert("No has introducido un valor válido, por favor introduce una cantidad");
 				}
-			} while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null);
+			} while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null||patron.test(apuesta) == true);
 		//  --- Fin bucle ---
 			credito_jugador = credito_jugador - apuesta;																//   --- Restar credito al jugador ---
 			credito_jugador_value.innerHTML = credito_jugador;															//   --- Mostrar credito al jugador ---
@@ -119,6 +122,7 @@
 	// - Una vez introducida la cantidad de apuesta, y el reset se haya efectuado, se crea una nueva baraja de cartas y se baraja.
 
 	function nuevaApuesta() {																							//   --- Nueva apuesta ---
+		var patron = /[a-z][A-Z]/;
 		reiniciarPartida=false;																							//   --- Reiniciar partida ---
 		limpiarPantalla();																								//   --- Limpiar pantalla ---																	
 		puntuacion_banca_value.innerHTML = "";																			//   --- Reset puntuación banca ---
@@ -146,8 +150,10 @@
 					alert("No puedes apostar menos de 100, por favor introduce una cantidad mayor");
 				}else if (apuesta == null) {																			//  --- Si el jugador no introduce ningún valor ---
 					alert("No has introducido ningún valor, por favor introduce una cantidad");
+				}else if(patron.test(apuesta) == true){
+					alert("No has introducido un valor válido, por favor introduce una cantidad");
 				}
-			}  while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null);							//  --- Fin bucle ---
+			}  while (apuesta > credito_jugador||apuesta < 100||apuesta == 0||apuesta == null||patron.test(apuesta) == true);							//  --- Fin bucle ---
 		//  --- Fin bucle ---
 			credito_jugador = credito_jugador - apuesta;																//  --- Restar el dinero del jugador ---
 			credito_jugador_value.innerHTML = credito_jugador;															//  --- Mostrar el dinero del jugador ---																
